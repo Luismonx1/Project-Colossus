@@ -2,7 +2,7 @@
 #colossos h2{
     
 }
-
+ /* Início section card*/
 .cards-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -10,41 +10,175 @@
     padding: 20px;
 }
 
-.cards-container .card-text{
-  
-}
-
 .cards-container .card-img-top{
      width: 220px;
     height: 180px;
-    object-fit: contain;
+    object-fit: cover;
     margin: 10px auto;
     display: block;
-    background-color: #000; /* opcional, combina com o tema */
+    background-color: #000; 
     padding: 5px;         
 
 }
-
-.cards-container .card-img-top4{
-     width: 220px;
-    height: 180px;
-    object-fit: contain;
-    margin: 10px auto;
-    display: block;
-    background-color: white; /* opcional, combina com o tema */
-    padding: 5px;         
-
-}
-
-.card-text{
-    color: white;
-    margin: 10px auto;
-    text-align: center;
-  
-}
-
+ 
 .card {
     border: 2px solid #2b2b2b;
     border-radius: 8px;
     background-color: #111;
 }
+
+.card p {
+    cursor: pointer;
+    color: white;
+    text-decoration: none; 
+    text-align: center;
+}
+ /* Fim section card*/
+
+ /* Início section popup*/
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: #ffffff;
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close-btn {
+    margin-top: 15px;
+    cursor: pointer;
+    padding: 8px 15px;
+    background: #444;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.open-link {
+    margin-top: 15px;
+    cursor: pointer;
+    padding: 8px 15px;
+    background: #2d75f3;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+/* --- POPUP SHADOW OF THE COLOSSUS STYLE --- */
+
+.modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+
+    /* leve fade-in */
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Caixa estilo pedra mística */
+.modal {
+    background: #1b1f1b;
+    width: 420px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    text-align: center;
+
+    /* textura de pedra */
+    background-size: cover;
+    background-blend-mode: soft-light;
+
+    /* bordas antigas verdes (estilo runa) */
+    border: 3px solid #555;
+
+    /* Glow suave como os sigilos dos colossos */
+    box-shadow: 0px 0px 15px rgba(130, 255, 200, 0.15);
+
+    /* animação de leve pulsação */
+    animation: mystPulse 3s infinite ease-in-out;
+}
+
+@keyframes mystPulse {
+    0%   { box-shadow: 0 0 18px rgba(130, 255, 200, 0.18); }
+    50%  { box-shadow: 0 0 32px rgba(130, 255, 200, 0.30); }
+    100% { box-shadow: 0 0 18px rgba(130, 255, 200, 0.18); }
+}
+
+
+/* Título com estilo de runa e brilho */
+#modal-title {
+    font-family: "Trajan Pro", serif; /* estilo clássico como o jogo */
+    font-size: 28px;
+    color: #e0e0d0;
+    
+    margin-bottom: 15px;
+}
+
+/* Descrição com estilo mitológico */
+#modal-desc {
+    color: #d1d1c2;
+    font-size: 16px;
+    line-height: 1.4;
+    font-family: Georgia, serif;
+    margin-bottom: 20px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.8);
+}
+
+/* Botão do link estilo pedra + glow */
+.open-link {
+    padding: 10px 18px;
+    background: #1f2a22;
+    border: 2px solid #555;
+    color: #d1d1c2;
+    text-decoration: none;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 10px;
+
+    transition: 0.25s ease;
+}
+
+.open-link:hover {
+    background: #2f3b32;
+    box-shadow: 0 0 14px rgba(120, 200, 150, 0.35);
+}
+
+/* Botão de fechar estilo madeira/escuro */
+.close-btn {
+    padding: 8px 16px;
+    background: #2b2b2b;
+    border: 2px solid #555;
+    color: #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.close-btn:hover {
+    background: #3d3d3d;
+    border-color: #777;
+}
+
+
+
