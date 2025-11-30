@@ -3,9 +3,11 @@
     
 }
 
-
 .cards-container {
-    
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    padding: 20px;
 }
 
 .cards-container .card-text{
@@ -13,8 +15,36 @@
 }
 
 .cards-container .card-img-top{
-    width: 150px;
+     width: 220px;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+    display: block;
+    background-color: #000; /* opcional, combina com o tema */
+    padding: 5px;         
+
 }
 
+.cards-container .card-img-top4{
+     width: 220px;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+    display: block;
+    background-color: white; /* opcional, combina com o tema */
+    padding: 5px;         
 
+}
 
+.card-text{
+    color: white;
+    margin: 10px auto;
+    text-align: center;
+  
+}
+
+.card {
+    border: 2px solid #2b2b2b;
+    border-radius: 8px;
+    background-color: #111;
+}
