@@ -1,195 +1,101 @@
-#colossos h2 {}
-
-/* Início section card*/
-.cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
+:root { color-scheme: dark; --background: #141917; --surface: #1c2320; --text: #eee9db; --muted: #b7bcaf; --line: #414a40; --accent: #bec7ab; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--background); color: var(--text); font-family: Georgia, 'Times New Roman', serif; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+.skip-link { position: fixed; top: 10px; left: 10px; z-index: 10; padding: 14px; background: var(--surface); transform: translateY(-180%); }
+.skip-link:focus { transform: translateY(0); }
+.site-header { border-bottom: 1px solid var(--line); background: #141917; }
+.navbar { min-height: 84px; max-width: 1440px; margin: auto; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+.logo { font-size: 20px; letter-spacing: .25em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 36px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { display: block; padding: 29px 0 24px; border-bottom: 2px solid transparent; color: var(--muted); font-size: 16px; }
+.nav-links a:hover, .nav-links a[aria-current] { color: var(--text); border-bottom-color: var(--accent); }
+.hero { min-height: 580px; display: flex; align-items: center; position: relative; background: linear-gradient(90deg, #0d1310e6 0%, #0d1310b3 30%, #0d13100d 75%), linear-gradient(0deg, #141917 0%, transparent 28%), url('../Images/Outros/terras-proibidas-wander-agro.png') center 72% / cover no-repeat; border-bottom: 1px solid var(--line); }
+.hero-content { width: 100%; max-width: 1440px; margin: auto; padding: 70px 5% 54px; }
+.eyebrow { font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: .32em; font-size: 11px; line-height: 1.8; color: var(--accent); margin: 0 0 24px; }
+h1 { font-size: clamp(38px, 4.6vw, 68px); line-height: 1.08; font-weight: 400; letter-spacing: -.025em; margin: 0 0 22px; text-wrap: balance; }
+.hero-description { max-width: 440px; font-size: 18px; line-height: 1.7; color: #d0d2c5; margin: 0 0 28px; }
+.explore-link { display: inline-flex; gap: 34px; align-items: center; padding: 17px 23px; border: 1px solid var(--accent); border-radius: 2px; background: #bac7a810; transition: background .2s; }
+.explore-link:hover { background: #bac7a828; }
+.hero-note { border-left: 1px solid #9ba58b; padding-left: 18px; margin: 42px 0 0; font-size: 12px; letter-spacing: .15em; line-height: 1.8; color: var(--muted); }
+#colossos { max-width: 1440px; margin: auto; padding: 48px 5% 70px; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 28px; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+.section-heading h2 { font-size: clamp(32px, 3.2vw, 44px); font-weight: 400; margin: 0; }
+.section-heading p { color: var(--muted); letter-spacing: .09em; font-size: 12px; margin: 0; }
+footer { padding: 34px 5%; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+footer .logo { font-size: 13px; }
+footer p { color: var(--muted); font-family: Arial, sans-serif; font-size: 12px; line-height: 1.8; }
+.back-top { white-space: nowrap; font-size: 13px; color: var(--accent); }
+@media (max-width: 1000px) {
+    .navbar { gap: 20px; }
+    .logo { font-size: 16px; letter-spacing: .18em; }
+    .nav-links { gap: 24px; }
+    footer { flex-wrap: wrap; }
+}
+@media (max-width: 600px) {
+    .navbar { flex-direction: column; gap: 4px; padding-top: 24px; }
+    .nav-links { width: 100%; justify-content: space-between; gap: 16px; }
+    .nav-links a { font-size: 14px; padding: 18px 0 16px; }
+    .hero { min-height: 520px; background-position: 78% center; background-image: linear-gradient(90deg, #0d1310ed, #0d13108c), linear-gradient(0deg, #141917, transparent 55%), url('../Images/Outros/terras-proibidas-wander-agro.png'); }
+    .hero-content { padding-top: 48px; padding-bottom: 40px; }
+    .hero-description { font-size: 16px; max-width: 300px; }
+    .eyebrow { font-size: 10px; letter-spacing: .25em; }
+    .hero-note { margin-top: 32px; }
+    #colossos { padding-top: 32px; padding-bottom: 40px; }
+    .section-heading { flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+    footer p { margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
 }
 
-.cards-container .card-img-top {
-    width: 220px;
-    height: 180px;
-    object-fit: cover;
-    margin: 10px auto;
-    display: block;
-    background-color: #000;
-    padding: 5px;
-
+.colossus-feature { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 440px; border: 1px solid var(--line); background: #19201c; }
+.featured-art { position: relative; display: grid; place-items: center; overflow: hidden; background: radial-gradient(ellipse at center, #384135, #101713 75%); isolation: isolate; }
+.featured-art img { position: relative; width: 100%; height: 440px; object-fit: contain; padding: 28px; z-index: 1; }
+.art-number { position: absolute; left: 22px; top: 5px; color: #c7d1b713; font-size: clamp(130px, 18vw, 250px); line-height: 1; }
+.featured-info { padding: 42px; display: flex; flex-direction: column; align-items: flex-start; border-left: 1px solid var(--line); }
+.featured-info .eyebrow { letter-spacing: .19em; font-size: 10px; margin-bottom: 12px; }
+.featured-info .eyebrow > span:first-child { margin: 0 12px; opacity: .5; }
+#featured-name { font-size: clamp(40px, 4.5vw, 64px); font-weight: 400; margin: 0 0 28px; line-height: 1.1; }
+.quote-label { font: 10px Arial, sans-serif; text-transform: uppercase; letter-spacing: .22em; color: var(--accent); margin: 0 0 12px; }
+.featured-info blockquote { margin: 0 0 28px; padding-left: 18px; border-left: 1px solid #68765b; color: #ced2c3; font-size: 16px; line-height: 1.7; min-height: 130px; }
+.featured-info blockquote p { margin: 0 0 10px; }
+.featured-info cite { font-size: 13px; color: var(--muted); font-style: normal; }
+.featured-info .explore-link { margin-top: auto; font-size: 14px; padding: 14px 18px; }
+.gallery-navigation { display: flex; width: 100%; align-items: center; justify-content: space-between; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+.gallery-navigation[hidden] { display: none; }
+.gallery-navigation button { cursor: pointer; background: transparent; border: 1px solid var(--line); width: 44px; height: 44px; font-size: 22px; }
+.gallery-navigation button:hover { border-color: var(--accent); background: #bac7a814; }
+#gallery-position { font: 11px Arial, sans-serif; letter-spacing: .22em; color: var(--accent); }
+.selector-heading { display: flex; justify-content: space-between; align-items: center; margin: 28px 0 14px; color: var(--muted); }
+.selector-heading p { margin: 0; font-size: 15px; }
+.selector-heading > span { font: 11px Arial, sans-serif; letter-spacing: .15em; }
+.colossus-selector { position: relative; display: flex; gap: 12px; overflow-x: auto; padding: 6px 3px 16px; scrollbar-width: thin; scrollbar-color: #78846d #1c2320; scroll-snap-type: x proximity; }
+.colossus-thumb { flex: 0 0 calc((100% - 84px) / 8); min-width: 112px; display: block; border: 1px solid var(--line); background: #1c231f; scroll-snap-align: start; opacity: .65; transition: opacity .2s, border-color .2s; text-align: center; }
+.colossus-thumb:hover, .colossus-thumb:focus-visible, .colossus-thumb[aria-pressed="true"] { opacity: 1; border-color: var(--accent); }
+.colossus-thumb[aria-pressed="true"] { box-shadow: inset 0 -3px var(--accent); background: #313b2c; }
+.colossus-thumb img { width: 100%; height: 86px; object-fit: contain; display: block; }
+.colossus-thumb > span { display: block; padding: 10px 5px 12px; font-size: 13px; white-space: nowrap; }
+.colossus-thumb small { color: var(--muted); font-size: 10px; margin-right: 5px; }
+.gallery-hint { color: var(--muted); font: 11px Arial, sans-serif; margin: 10px 0 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (max-width: 800px) {
+    .colossus-feature { grid-template-columns: 1fr; }
+    .featured-art img { height: 300px; padding: 18px; }
+    .featured-info { padding: 28px; border-left: 0; border-top: 1px solid var(--line); }
+    #featured-name { margin-bottom: 22px; }
+    .featured-info blockquote { min-height: 0; }
+    .colossus-thumb { flex-basis: 116px; }
 }
-
-.card {
-    border: 2px solid #2b2b2b;
-    border-radius: 8px;
-    background-color: #111;
-}
-
-.card p {
-    cursor: pointer;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-}
-
-/* Fim section card*/
-
-/* Início section popup*/
-.modal-bg {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    background: #ffffff;
-    width: 350px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.close-btn {
-    margin-top: 15px;
-    cursor: pointer;
-    padding: 8px 15px;
-    background: #444;
-    color: #fff;
-    border-radius: 5px;
-}
-
-.open-link {
-    margin-top: 15px;
-    cursor: pointer;
-    padding: 8px 15px;
-    background: #2d75f3;
-    color: #fff;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 5px;
-}
-
-/* --- POPUP SHADOW OF THE COLOSSUS STYLE --- */
-
-.modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(3px);
-    justify-content: center;
-    align-items: center;
-
-    /* leve fade-in */
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-/* Caixa estilo pedra mística */
-.modal {
-    background: #1b1f1b;
-    width: 420px;
-    padding: 25px 30px;
-    border-radius: 12px;
-    text-align: center;
-
-    /* textura de pedra */
-    background-size: cover;
-    background-blend-mode: soft-light;
-
-    /* bordas antigas verdes (estilo runa) */
-    border: 3px solid #555;
-
-    /* Glow suave como os sigilos dos colossos */
-    box-shadow: 0px 0px 15px rgba(130, 255, 200, 0.15);
-
-    /* animação de leve pulsação */
-    animation: mystPulse 3s infinite ease-in-out;
-}
-
-@keyframes mystPulse {
-    0% {
-        box-shadow: 0 0 18px rgba(130, 255, 200, 0.18);
-    }
-
-    50% {
-        box-shadow: 0 0 32px rgba(130, 255, 200, 0.30);
-    }
-
-    100% {
-        box-shadow: 0 0 18px rgba(130, 255, 200, 0.18);
-    }
-}
-
-
-/* Título com estilo de runa e brilho */
-#modal-title {
-    font-family: "Trajan Pro", serif;
-    /* estilo clássico como o jogo */
-    font-size: 28px;
-    color: #e0e0d0;
-
-    margin-bottom: 15px;
-}
-
-/* Descrição com estilo mitológico */
-#modal-desc {
-    color: #d1d1c2;
-    font-size: 16px;
-    line-height: 1.4;
-    font-family: Georgia, serif;
-    margin-bottom: 20px;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-    white-space: normal;
-}
-
-/* Botão do link estilo pedra + glow */
-.open-link {
-    padding: 10px 18px;
-    background: #1f2a22;
-    border: 2px solid #555;
-    color: #d1d1c2;
-    text-decoration: none;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 10px;
-
-    transition: 0.25s ease;
-}
-
-.open-link:hover {
-    background: #2f3b32;
-    box-shadow: 0 0 14px rgba(120, 200, 150, 0.35);
-}
-
-/* Botão de fechar estilo madeira/escuro */
-.close-btn {
-    padding: 8px 16px;
-    background: #2b2b2b;
-    border: 2px solid #555;
-    color: #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-
-    transition: 0.25s ease;
-}
-
-.close-btn:hover {
-    background: #3d3d3d;
-    border-color: #777;
+@media (max-width: 400px) {
+    .featured-info { padding: 22px; }
+    .featured-art img { height: 250px; }
+    .featured-info .eyebrow { font-size: 9px; letter-spacing: .12em; }
+    .featured-info .eyebrow > span:first-child { margin: 0 5px; }
+    .selector-heading p { font-size: 13px; }
 }

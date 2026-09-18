@@ -1,90 +1,61 @@
-// Selecionar elementos do popup
-const modalBg = document.getElementById("modal-bg");
-const modalTitle = document.getElementById("modal-title");
-const modalDesc = document.getElementById("modal-desc");
-const modalLink = document.getElementById("modal-link");
-const closeModalBtn = document.getElementById("close-modal");
+const modalBg = document.getElementById('modal-bg');
+const modal = modalBg.querySelector('.modal');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
+const modalLink = document.getElementById('modal-link');
+const closeModalBtn = document.getElementById('close-modal');
+const popupSound = document.getElementById('popupSound');
+const backgroundRegions = document.querySelectorAll('.site-header, main, footer, .skip-link');
+let previousFocus;
+let typingTimer;
 
-// Som do popup
-const popupSound = document.getElementById("popupSound");
-
-// Função para abrir o popup
-function typeWriter(element, text, speed = 35) {
-    element.innerHTML = ""; // Limpa antes de digitar
-
-    // Divide o texto em partes, preservando <br>
-    const parts = text.split(/(<br>)/g);
-    let partIndex = 0;
-
-    function typePart() {
-        if (partIndex >= parts.length) return;
-
-        const part = parts[partIndex];
-
-        if (part === "<br>") {
-            element.innerHTML += "<br>";
-            partIndex++;
-            typePart(); // passa direto para o próximo
-        } else {
-            let i = 0;
-
-            function typing() {
-                if (i < part.length) {
-                    element.innerHTML += part.charAt(i);
-                    i++;
-                    setTimeout(typing, speed);
-                } else {
-                    partIndex++;
-                    typePart();
-                }
-            }
-            typing();
-        }
-    }
-
-    typePart();
-}
-
-
-function openModal(title, desc, link) {
-    modalTitle.textContent = title;
-    modalLink.href = link;
-
-    // Converter \n para <br>
-    const formattedDesc = desc.replace(/\\n/g, "<br>");
-
-    modalBg.style.display = "flex";
-
-    // Toca o som do popup
+function openModal(trigger) {
+    clearTimeout(typingTimer);
+    previousFocus = trigger;
+    modalTitle.textContent = trigger.dataset.title;
+    modalLink.href = trigger.dataset.link;
+    const description = trigger.dataset.desc.replace(/\\n/g, '\n');
+    modalDesc.textContent = description;
+    modalBg.hidden = false;
+    document.body.classList.add('modal-open');
+    backgroundRegions.forEach(region => { region.inert = true; });
+    modal.focus();
     if (popupSound) {
         popupSound.currentTime = 0;
         popupSound.play().catch(() => {});
     }
-
-    // Efeito digitado
-    typeWriter(modalDesc, formattedDesc, 30); // 30ms por letra
+    modalDesc.setAttribute('aria-label', description);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let index = 0;
+        modalDesc.textContent = '';
+        const typeNext = () => {
+            modalDesc.textContent = description.slice(0, ++index);
+            if (index < description.length) typingTimer = setTimeout(typeNext, 20);
+        };
+        typeNext();
+    }
 }
-
-// Função para fechar
 function closeModal() {
-    modalBg.style.display = "none";
+    clearTimeout(typingTimer);
+    modalBg.hidden = true;
+    document.body.classList.remove('modal-open');
+    backgroundRegions.forEach(region => { region.inert = false; });
+    if (popupSound) { popupSound.pause(); popupSound.currentTime = 0; }
+    previousFocus?.focus();
 }
-
-// Quando clicar no botão "Fechar"
-closeModalBtn.addEventListener("click", closeModal);
-
-// Quando clicar fora da caixa do pop-up, também fecha
-modalBg.addEventListener("click", (e) => {
-    if (e.target === modalBg) closeModal();
+closeModalBtn.addEventListener('click', closeModal);
+modalBg.addEventListener('click', event => { if (event.target === modalBg) closeModal(); });
+document.addEventListener('keydown', event => {
+    if (modalBg.hidden) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeModal(); }
+    if (event.key === 'Tab') {
+        if (event.shiftKey && (document.activeElement === modalLink || document.activeElement === modal)) {
+            event.preventDefault(); closeModalBtn.focus();
+        } else if (!event.shiftKey && document.activeElement === closeModalBtn) {
+            event.preventDefault(); modalLink.focus();
+        }
+    }
 });
-
-// Ativar todos os textos clicáveis
-document.querySelectorAll(".open-modal").forEach(item => {
-    item.addEventListener("click", () => {
-        const title = item.dataset.title;
-        const desc = item.dataset.desc;
-        const link = item.dataset.link;
-
-        openModal(title, desc, link);
-    });
+document.querySelectorAll('.open-modal').forEach(trigger => {
+    trigger.addEventListener('click', () => openModal(trigger));
 });

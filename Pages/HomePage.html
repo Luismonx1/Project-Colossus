@@ -1,239 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="/Styles/HomePage.css">
-    <script defer src="/Scripts/popup.js"></script>
+    <title>Project Colossus | Terras Proibidas</title>
+    <link rel="stylesheet" href="../Styles/HomePage.css">
+    <script defer src="../Scripts/galeria.js"></script>
 </head>
 <body>
     
-    <nav class="navbar">
-    <div class="logo">MeuSite</div>
-
-    <ul class="nav-links">
-        <li><a href="index.html">Início</a></li>
-        <li><a href="colossos.html">Colossos</a></li>
-        <li><a href="mapa.html">Mapa</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-    </ul>
-</nav>
-
-    <section id="colossos">
-        <h2>Colossus</h2>
-
-        <div class="cards-container">
-
-            <!-- Colosso 1 -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/ValusTemplate.webp" class="card-img-top" alt="Colosso 1">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Valus" data-desc="Erga tua espada sob a luz...e siga para a direção onde a luz da espada se une...
-                   Lá, tu deverás encontrar o colosso que tu deves derrotar. \n— Dormin" data-link="Colosso1.html">
-                        Valus
-                    </p>
-                </div>
+    <a class="skip-link" href="#colossos">Pular para os colossos</a>
+    <header class="site-header" id="inicio">
+        <nav class="navbar" aria-label="Navegação principal">
+            <a class="logo" href="HomePage.html">Project Colossus</a>
+            <ul class="nav-links">
+                <li><a href="#inicio" aria-current="page">Início</a></li>
+                <li><a href="#colossos">Colossos</a></li>
+                <li><a href="mapa.html">Mapa</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <p class="eyebrow">Shadow of the Colossus</p>
+                <h1 id="hero-title">Uma jornada pelas<br>Terras Proibidas</h1>
+                <p class="hero-description">Conheça os gigantes que habitam este mundo esquecido.</p>
+                <a class="explore-link" href="#colossos">Explorar os colossos <span aria-hidden="true">→</span></a>
+                <p class="hero-note">Em terras esquecidas,<br>a grandeza ainda ecoa.</p>
             </div>
+        </section>
 
-            <!-- Colosso 2  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/QuadratusTemplate.webp" class="card-img-top" alt="Colosso 2">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Quadratus"
-                        data-desc="Teu próximo alvo é... Na caverna à beira-mar... Se move lentamente... Erga tua coragem para derrotá-lo. \n— Dormin"
-                        data-link="Colosso2.html">
-                        Quadratus
-                    </p>
+    <section id="colossos" aria-labelledby="colossos-title">
+        <div class="section-heading"><h2 id="colossos-title">Os colossos</h2><p>16 gigantes · Uma jornada</p></div>
+        <div class="colossus-gallery">
+            <article class="colossus-feature" aria-labelledby="featured-name">
+                <div class="featured-art"><span class="art-number" aria-hidden="true" id="art-number">01</span><img id="featured-image" src="../Images/Colossos/ValusTemplate.webp" alt="Valus, o primeiro colosso" width="640" height="480"></div>
+                <div class="featured-info">
+                    <p class="eyebrow">Terras Proibidas <span aria-hidden="true">/</span> <span id="featured-number">Colosso 01</span></p>
+                    <h3 id="featured-name">Valus</h3>
+                    <p class="quote-label">A voz de Dormin</p>
+                    <blockquote><p id="featured-quote">Erga tua espada sob a luz...e siga para a direção onde a luz da espada se une...
+                   Lá, tu deverás encontrar o colosso que tu deves derrotar.</p><cite>— Dormin</cite></blockquote>
+                    <a id="featured-link" class="explore-link" href="Colosso1.html">Conhecer o colosso <span aria-hidden="true">↗</span></a>
+                    <div class="gallery-navigation" hidden>
+                        <button id="previous-colossus" type="button" aria-label="Colosso anterior">←</button>
+                        <span id="gallery-position">01 / 16</span>
+                        <button id="next-colossus" type="button" aria-label="Próximo colosso">→</button>
+                    </div>
                 </div>
+            </article>
+            <div class="selector-heading"><p>Escolha seu próximo encontro</p><span>01 — 16</span></div>
+            <div class="colossus-selector" aria-label="Escolher colosso">
+                <a class="colossus-thumb" href="Colosso1.html" data-name="Valus" data-description="Erga tua espada sob a luz...e siga para a direção onde a luz da espada se une... Lá, tu deverás encontrar o colosso que tu deves derrotar. \n— Dormin" data-image="../Images/Colossos/ValusTemplate.webp" aria-label="Selecionar Valus, colosso 1"><img src="../Images/Colossos/ValusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>01</small> Valus</span></a>
+                <a class="colossus-thumb" href="Colosso2.html" data-name="Quadratus" data-description="Teu próximo alvo é... Na caverna à beira-mar... Se move lentamente... Erga tua coragem para derrotá-lo. \n— Dormin" data-image="../Images/Colossos/QuadratusTemplate.webp" aria-label="Selecionar Quadratus, colosso 2"><img src="../Images/Colossos/QuadratusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>02</small> Quadratus</span></a>
+                <a class="colossus-thumb" href="Colosso3.html" data-name="Gaius" data-description="Teu próximo alvo é... Um dossel gigante se eleva aos céus... A ira do gigante adormecido despedaça a terra... \n— Dormin" data-image="../Images/Colossos/GaiusTemplate.webp" aria-label="Selecionar Gaius, colosso 3"><img src="../Images/Colossos/GaiusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>03</small> Gaius</span></a>
+                <a class="colossus-thumb" href="Colosso4.html" data-name="Phaedra" data-description="Teu próximo alvo é... Na terra dos vastos campos verdes... Fileiras de sepulturas norteadoras... É gigante sim, mas temível, não é. \n— Dormin" data-image="../Images/Colossos/PhaedraTemplate.webp" aria-label="Selecionar Phaedra, colosso 4"><img src="../Images/Colossos/PhaedraTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>04</small> Phaedra</span></a>
+                <a class="colossus-thumb" href="Colosso5.html" data-name="Avion" data-description="Teu próximo alvo é... Ele lança uma sombra colossal sobre um lago enevoado enquanto plana pelos céus... Alcançá-lo não é tarefa fácil... \n— Dormin" data-image="../Images/Colossos/AvionTemplate.webp" aria-label="Selecionar Avion, colosso 5"><img src="../Images/Colossos/AvionTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>05</small> Avion</span></a>
+                <a class="colossus-thumb" href="Colosso6.html" data-name="Barba" data-description="Teu próximo alvo é... Um gigante espreita por debaixo do templo... Ele anseia por destruição... Mas um tolo, ele não é. \n— Dormin" data-image="../Images/Colossos/BarbaTemplate.webp" aria-label="Selecionar Barba, colosso 6"><img src="../Images/Colossos/BarbaTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>06</small> Barba</span></a>
+                <a class="colossus-thumb" href="Colosso7.html" data-name="Hydrus" data-description="Teu próximo alvo é... Uma ruína escondida no lago... Uma onda de trovão espreita debaixo da água... \n— Dormin" data-image="../Images/Colossos/HydrusTemplate.webp" aria-label="Selecionar Hydrus, colosso 7"><img src="../Images/Colossos/HydrusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>07</small> Hydrus</span></a>
+                <a class="colossus-thumb" href="Colosso8.html" data-name="Kuromori" data-description="Teu próximo alvo é... Uma cauda presa em um balde floresta adentro... Uma sombra que rasteja nas paredes... \n— Dormin" data-image="../Images/Colossos/KuromoriTemplate.webp" aria-label="Selecionar Kuromori, colosso 8"><img src="../Images/Colossos/KuromoriTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>08</small> Kuromori</span></a>
+                <a class="colossus-thumb" href="Colosso9.html" data-name="Basaran" data-description="Teu próximo alvo é... A terra onde as árvores quase não crescem... Ele dorme no leito de um lago seco... Um despertar violento. \n— Dormin" data-image="../Images/Colossos/BasaranTemplate.webp" aria-label="Selecionar Basaran, colosso 9"><img src="../Images/Colossos/BasaranTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>09</small> Basaran</span></a>
+                <a class="colossus-thumb" href="Colosso10.html" data-name="Dirge" data-description="Teu próximo alvo é... Uma duna de areia isolada... Seus rastros estão bem escondidos... Sacudindo a terra, seu olhar está sobre ti... \n— Dormin" data-image="../Images/Colossos/DirgeTemplate.webp" aria-label="Selecionar Dirge, colosso 10"><img src="../Images/Colossos/DirgeTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>10</small> Dirge</span></a>
+                <a class="colossus-thumb" href="Colosso11.html" data-name="Celosia" data-description="Teu próximo alvo é... Um altar acima do lago... Um guardião solto... Ele mantém as chamas vivas. \n— Dormin" data-image="../Images/Colossos/CelosiaTemplate.webp" aria-label="Selecionar Celosia, colosso 11"><img src="../Images/Colossos/CelosiaTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>11</small> Celosia</span></a>
+                <a class="colossus-thumb" href="Colosso12.html" data-name="Pelagia" data-description="Teu próximo alvo é... O paraíso flutua sobre o lago... Um ser silencioso empunha o trovão... Uma ponte móvel para ir para um terreno mais elevado.\n— Dormin" data-image="../Images/Colossos/PelagiaTemplate.webp" aria-label="Selecionar Pelagia, colosso 12"><img src="../Images/Colossos/PelagiaTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>12</small> Pelagia</span></a>
+                <a class="colossus-thumb" href="Colosso13.html" data-name="Phalanx" data-description="Teu próximo alvo é... As vastas terras desérticas... Uma trilha gigante flutua pelo céu... Tu não está a sós... \n— Dormin" data-image="../Images/Colossos/PhalanxTemplate.webp" aria-label="Selecionar Phalanx, colosso 13"><img src="../Images/Colossos/PhalanxTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>13</small> Phalanx</span></a>
+                <a class="colossus-thumb" href="Colosso14.html" data-name="Cenobia" data-description="Teu próximo alvo é... Um guardião solto... Uma cidade fechada além do canal... Ele anseia por destruição... \n— Dormin" data-image="../Images/Colossos/CenobiaTemplate.webp" aria-label="Selecionar Cenobia, colosso 14"><img src="../Images/Colossos/CenobiaTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>14</small> Cenobia</span></a>
+                <a class="colossus-thumb" href="Colosso15.html" data-name="Argus" data-description="Teu próximo alvo é... Um gigante caiu no vale... Ele age como uma sentinela para a cidade destruída... \n— Dormin" data-image="../Images/Colossos/ArgusTemplate.webp" aria-label="Selecionar Argus, colosso 15"><img src="../Images/Colossos/ArgusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>15</small> Argus</span></a>
+                <a class="colossus-thumb" href="Colosso16.html" data-name="Malus" data-description="Finalmente, o último colosso... O ritual está quase acabado... Teu desejo está quase garantido... Mas alguém agora levanta-se para entrar em teu caminho... Apressa-te, pois o tempo é curto... \n— Dormin" data-image="../Images/Colossos/MalusTemplate.webp" aria-label="Selecionar Malus, colosso 16"><img src="../Images/Colossos/MalusTemplate.webp" alt="" width="120" height="90" loading="lazy"><span><small>16</small> Malus</span></a>
             </div>
-
-             <!-- Colosso 3  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/GaiusTemplate.webp" class="card-img-top" alt="Colosso 3">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Gaius"
-                        data-desc="Teu próximo alvo é... Um dossel gigante se eleva aos céus... A ira do gigante adormecido despedaça a terra... \n— Dormin"
-                        data-link="Colosso3.html">
-                        Gaius
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 4  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/PhaedraTemplate.webp" class="card-img-top" alt="Colosso 4">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Phaedra"
-                        data-desc="Teu próximo alvo é... Na terra dos vastos campos verdes... Fileiras de sepulturas norteadoras... É gigante sim, mas temível, não é. \n— Dormin"
-                        data-link="Colosso4.html">
-                        Phaedra
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 5  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/AvionTemplate.webp" class="card-img-top" alt="Colosso 5">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Avion"
-                        data-desc="Teu próximo alvo é... Ele lança uma sombra colossal sobre um lago enevoado enquanto plana pelos céus... Alcançá-lo não é tarefa fácil... \n— Dormin"
-                        data-link="Colosso5.html">
-                        Avion
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 6  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/BarbaTemplate.webp" class="card-img-top" alt="Colosso 6">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Barba"
-                        data-desc="Teu próximo alvo é... Um gigante espreita por debaixo do templo... Ele anseia por destruição... Mas um tolo, ele não é. \n— Dormin"
-                        data-link="Colosso6.html">
-                        Barba
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 7  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/HydrusTemplate.webp" class="card-img-top" alt="Colosso 7">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Hydrus"
-                        data-desc="Teu próximo alvo é... Uma ruína escondida no lago... Uma onda de trovão espreita debaixo da água... \n— Dormin"
-                        data-link="Colosso7.html">
-                        Hydrus
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 8  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/KuromoriTemplate.webp" class="card-img-top" alt="Colosso 8">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Kuromori"
-                        data-desc="Teu próximo alvo é... Uma cauda presa em um balde floresta adentro... Uma sombra que rasteja nas paredes... \n— Dormin"
-                        data-link="Colosso8.html">
-                        Kuromori
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 9  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/BasaranTemplate.webp" class="card-img-top" alt="Colosso 9">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Kuromori"
-                        data-desc="Teu próximo alvo é... A terra onde as árvores quase não crescem... Ele dorme no leito de um lago seco... Um despertar violento. \n— Dormin"
-                        data-link="Colosso9.html">
-                        Basaran
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 10  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/DirgeTemplate.webp" class="card-img-top" alt="Colosso 10">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Dirge"
-                        data-desc="Teu próximo alvo é... Uma duna de areia isolada... Seus rastros estão bem escondidos... Sacudindo a terra, seu olhar está sobre ti... \n— Dormin"
-                        data-link="Colosso10.html">
-                        Dirge
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 11  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/CelosiaTemplate.webp" class="card-img-top" alt="Colosso 11">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Celosia"
-                        data-desc="Teu próximo alvo é... Um altar acima do lago... Um guardião solto... Ele mantém as chamas vivas. \n— Dormin"
-                        data-link="Colosso11.html">
-                        Celosia
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 12  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/PelagiaTemplate.webp" class="card-img-top" alt="Colosso 12">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Pelagia"
-                        data-desc="Teu próximo alvo é... O paraíso flutua sobre o lago... Um ser silencioso empunha o trovão... Uma ponte móvel para ir para um terreno mais elevado.\n— Dormin"
-                        data-link="Colosso12.html">
-                        Pelagia
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 13  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/PhalanxTemplate.webp" class="card-img-top" alt="Colosso 13">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Phalanx"
-                        data-desc="Teu próximo alvo é... As vastas terras desérticas... Uma trilha gigante flutua pelo céu... Tu não está a sós... \n— Dormin"
-                        data-link="Colosso13.html">
-                        Phalanx
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 14  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/CenobiaTemplate.webp" class="card-img-top" alt="Colosso 14">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Phalanx"
-                        data-desc="Teu próximo alvo é... Um guardião solto... Uma cidade fechada além do canal... Ele anseia por destruição... \n— Dormin"
-                        data-link="Colosso14.html">
-                        Cenobia
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 15  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/ArgusTemplate.webp" class="card-img-top" alt="Colosso 15">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Argus"
-                        data-desc="Teu próximo alvo é... Um gigante caiu no vale... Ele age como uma sentinela para a cidade destruída... \n— Dormin"
-                        data-link="Colosso15.html">
-                        Argus
-                    </p>
-                </div>
-            </div>
-
-             <!-- Colosso 16  -->
-            <div class="card" style="width: 18rem;">
-                <img src="/Images/Colossos/MalusTemplate.webp" class="card-img-top" alt="Colosso 16">
-                <div class="card-body">
-                    <p class="open-modal" data-title="Malus"
-                        data-desc="Finalmente, o último colosso... O ritual está quase acabado... Teu desejo está quase garantido... Mas alguém agora levanta-se para entrar em teu caminho... Apressa-te, pois o tempo é curto... \n— Dormin"
-                        data-link="Colosso16.html">
-                        Malus
-                    </p>
-                </div>
-            </div>
-
+            <p class="gallery-hint">Deslize as miniaturas para explorar os 16 colossos.</p>
+            <p id="gallery-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
     </section>
 
-    <div id="modal-bg" class="modal-bg">
-        <div class="modal">
-            <h3 id="modal-title"></h3>
-            <p id="modal-desc"></p>
-            <a id="modal-link" class="open-link" target="_blank">Abrir página completa</a>
-            <div class="close-btn" id="close-modal">Fechar</div>
-        </div>
-    </div>
+    </main>
 
-
-<audio id="popupSound" src="/Sounds/popup.wav" preload="auto"></audio>
-<footer>
-
-</footer>
+<footer id="sobre"><a class="logo" href="#inicio">Project Colossus</a><p>Um projeto de fã dedicado ao universo de Shadow of the Colossus.</p><a class="back-top" href="#inicio">Voltar ao início ↑</a></footer>
 </body>
 
 </html>
