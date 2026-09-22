@@ -7,9 +7,39 @@
     const link = document.getElementById('featured-link');
     const status = document.getElementById('gallery-status');
     let current = 0;
+    const sound = document.getElementById('gallery-sound');
+    const soundToggle = document.getElementById('sound-toggle');
+    const soundPreferenceKey = 'colossus-gallery-sound';
+    let soundEnabled = true;
+    try { soundEnabled = localStorage.getItem(soundPreferenceKey) !== 'off'; } catch { /* Storage may be unavailable. */ }
+    sound.volume = 0.18;
+
+    function updateSoundToggle() {
+        soundToggle.textContent = `Som: ${soundEnabled ? 'ligado' : 'desligado'}`;
+        soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+    }
+
+    soundToggle.hidden = false;
+    updateSoundToggle();
+    soundToggle.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        sound.pause();
+        sound.currentTime = 0;
+        updateSoundToggle();
+        try { localStorage.setItem(soundPreferenceKey, soundEnabled ? 'on' : 'off'); } catch { /* Keep the setting for this visit. */ }
+    });
+
+    function playSelectionSound() {
+        // Reuse one player so rapid selections never overlap.
+        sound.pause();
+        sound.currentTime = 0;
+        if (soundEnabled) sound.play().catch(() => { /* Navigation still works if playback is blocked. */ });
+    }
 
     function select(index, announce = true) {
-        current = (index + choices.length) % choices.length;
+        const next = (index + choices.length) % choices.length;
+        const changed = next !== current;
+        current = next;
         const choice = choices[current];
         const number = String(current + 1).padStart(2, '0');
         image.src = choice.dataset.image;
@@ -22,6 +52,7 @@
         document.getElementById('gallery-position').textContent = `${number} / ${choices.length}`;
         choices.forEach((item, i) => item.setAttribute('aria-pressed', String(i === current)));
         if (announce) {
+            if (changed) playSelectionSound();
             status.textContent = `${choice.dataset.name}, colosso ${current + 1} de ${choices.length}`;
             // Scroll only the miniature strip; keep the page and keyboard focus stable.
             selector.scrollTo({ left: choice.offsetLeft - (selector.clientWidth - choice.offsetWidth) / 2,
