@@ -4,6 +4,7 @@ const fs = require('fs');
 const escapeAttribute = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 const alternateHeroImages = {
   Valus: '../Images/Colossos/Valus/ValusScrollHero.webp',
+  Quadratus: '../Images/Colossos/Quadratus/QuadratusScrollHero.webp',
 };
 
 for (let number = 1; number <= 16; number++) {
