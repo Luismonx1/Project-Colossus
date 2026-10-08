@@ -59,4 +59,6 @@ O exemplo original importa next/image. Aqui ele foi adaptado para img com mídia
 
 A seção fica fixa durante um trecho de rolagem nativa; a imagem de cada colosso se expande e o título sai de cena. O link para a ficha permanece disponível durante a animação.
 
+A página de Valus usa `ValusScrollHero.webp` na abertura animada como teste de direção visual, enquanto a ficha mantém `ValusCinematic.png`. As demais páginas ainda reutilizam a mesma arte nas duas áreas.
+
 Com prefers-reduced-motion, a expansão automática é desativada. Sem JavaScript, a ficha continua acessível.

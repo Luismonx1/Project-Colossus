@@ -10,13 +10,14 @@ export interface ScrollExpandMediaProps {
   date?: string;
   scrollToExpand?: string;
   caption?: string;
+  imagePosition?: string;
   textBlend?: boolean;
   children?: ReactNode;
 }
 
 // Adapted for a static site: native scrolling, local images and no Next server.
 export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
-  title = '', date, scrollToExpand, caption, textBlend = false, children }: ScrollExpandMediaProps) {
+  title = '', date, scrollToExpand, caption, imagePosition = 'center center', textBlend = false, children }: ScrollExpandMediaProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [viewport, setViewport] = useState({ width: 1280, height: 800 });
@@ -39,11 +40,11 @@ export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
     <div ref={sectionRef} className={`expansion-track ${reduced ? 'reduced-motion' : ''}`}>
       <section className="expansion-stage" aria-label={`Apresentação de ${title}`}>
         <motion.div className="expansion-background" style={{ opacity: reduced ? .15 : backgroundOpacity }} aria-hidden="true">
-          <img src={bgImageSrc} alt="" />
+          <img src={bgImageSrc} alt="" style={{ objectPosition: imagePosition }} />
         </motion.div>
         <a className="expansion-skip tw:absolute tw:right-6 tw:top-6 tw:z-30" href="#conteudo">Ir para a ficha ↓</a>
         <motion.div className="expansion-media" style={{ width: reduced ? '94%' : width, height: reduced ? '70svh' : height, borderRadius: reduced ? 4 : radius }}>
-          <img className="expansion-poster" src={mediaSrc} alt={title} />
+          <img className="expansion-poster" src={mediaSrc} alt={title} style={{ objectPosition: imagePosition }} />
           <div className="expansion-media-shade" />
 
         </motion.div>

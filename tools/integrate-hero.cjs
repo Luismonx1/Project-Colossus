@@ -2,6 +2,9 @@ const projectRoot = require('path').resolve(__dirname, '..');
 process.chdir(projectRoot);
 const fs = require('fs');
 const escapeAttribute = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
+const alternateHeroImages = {
+  Valus: '../Images/Colossos/Valus/ValusScrollHero.webp',
+};
 
 for (let number = 1; number <= 16; number++) {
   const p = `Pages/Colosso${number}.html`;
@@ -19,7 +22,8 @@ for (let number = 1; number <= 16; number++) {
     .replace(/\s*<div class="colossus-immersive"[\s\S]*?<\/div>\s*(?=<main id="conteudo">)/g, '\n    ')
     .replace('</head>', '    <link rel="stylesheet" href="../Assets/colossus-hero/colossus-hero.css">\n    <script defer src="../Assets/colossus-hero/colossus-hero.js"></script>\n</head>');
 
-  const hero = `    <div class="colossus-immersive" data-image="${escapeAttribute(image)}" data-title="${escapeAttribute(title)}" data-date="${escapeAttribute(date)}" data-caption="${escapeAttribute(`${title} · ${subtitle}`)}"><p class="immersive-fallback"><a href="#conteudo">Conheça ${title} ↓</a></p></div>\n`;
+  const heroImage = alternateHeroImages[title] || image;
+  const hero = `    <div class="colossus-immersive" data-image="${escapeAttribute(heroImage)}" data-title="${escapeAttribute(title)}" data-date="${escapeAttribute(date)}" data-caption="${escapeAttribute(`${title} · ${subtitle}`)}"><p class="immersive-fallback"><a href="#conteudo">Conheça ${title} ↓</a></p></div>\n`;
   h = h.replace('    <main id="conteudo">', `${hero}    <main id="conteudo">`);
   fs.writeFileSync(p, h);
 }

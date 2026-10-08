@@ -10,7 +10,7 @@
 .expansion-background{position:absolute;inset:0;z-index:-1}
 .expansion-background img{width:100%;height:100%;object-fit:cover;filter:blur(6px) brightness(.5);transform:scale(1.04)}
 .expansion-media{position:relative;flex:none;overflow:hidden;background:#151c16;box-shadow:0 24px 100px #0009;border:1px solid #7f8b7055}
-.expansion-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.expansion-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .expansion-media-shade{position:absolute;inset:0;background:linear-gradient(0deg,#08100988,transparent 40%);pointer-events:none}
 .expansion-title{position:absolute;text-align:center;pointer-events:none;text-shadow:0 3px 22px #000b;max-width:94vw}
 .expansion-title h2{font:normal clamp(76px,12vw,170px)/1 Georgia,serif;margin:20px 0;letter-spacing:-.035em}
