@@ -4,6 +4,7 @@
 @source "../src";
 /* No preflight: the original site keeps its own typography and layout. */
 .scroll-expansion-hero{background:#101612;color:#eee9db;--background:#101612;--foreground:#eee9db;--primary:#bec7ab;--border:#414a40}
+.immersive-fallback{text-align:center;padding:24px}
 .expansion-track{position:relative;height:180svh}
 .expansion-stage{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate}
 .expansion-background{position:absolute;inset:0;z-index:-1}

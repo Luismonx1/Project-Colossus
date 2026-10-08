@@ -9,13 +9,14 @@ export interface ScrollExpandMediaProps {
   title?: string;
   date?: string;
   scrollToExpand?: string;
+  caption?: string;
   textBlend?: boolean;
   children?: ReactNode;
 }
 
 // Adapted for a static site: native scrolling, local images and no Next server.
 export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
-  title = '', date, scrollToExpand, textBlend = false, children }: ScrollExpandMediaProps) {
+  title = '', date, scrollToExpand, caption, textBlend = false, children }: ScrollExpandMediaProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [viewport, setViewport] = useState({ width: 1280, height: 800 });
@@ -51,7 +52,7 @@ export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
           <h2>{title}</h2>
           {scrollToExpand && !reduced && <p className="expansion-instruction">{scrollToExpand} <span aria-hidden="true">↓</span></p>}
         </motion.div>
-        <p className="expansion-caption">Argus · O sentinela das ruínas</p>
+        {caption && <p className="expansion-caption">{caption}</p>}
       </section>
     </div>
     {children && <section className="expansion-content">{children}</section>}

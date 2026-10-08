@@ -6,7 +6,7 @@ export default defineConfig({
   resolve: { alias: { '@': fileURLToPath(new URL('.', import.meta.url)) } },
   define: { 'process.env.NODE_ENV': JSON.stringify('production') },
   build: {
-    outDir: 'Assets/argus-hero',
-    lib: { entry: 'src/argus-hero.tsx', name: 'ArgusHero', formats: ['iife'], fileName: () => 'argus-hero.js', cssFileName: 'argus-hero' },
+    outDir: 'Assets/colossus-hero',
+    lib: { entry: 'src/colossus-hero.tsx', name: 'ColossusHero', formats: ['iife'], fileName: () => 'colossus-hero.js', cssFileName: 'colossus-hero' },
   },
 });

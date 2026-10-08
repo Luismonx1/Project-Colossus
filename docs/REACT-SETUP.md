@@ -1,16 +1,16 @@
-# Experiência imersiva de Argus
+# Experiência imersiva dos colossos
 
-O projeto original é um site estático em Pages/, Styles/ e Scripts/. A página de Argus agora incorpora uma aplicação React pequena, compilada com Vite. As outras páginas continuam independentes.
+O site estático incorpora uma aplicação React pequena, compilada com Vite, no início das 16 fichas de colossos.
 
 ## Estrutura
 
 - components/ui/scroll-expansion-hero.tsx: componente reutilizável adaptado do exemplo fornecido.
 - components/demo.tsx: variantes de imagem com os arquivos locais.
-- src/argus-hero.tsx: montagem na página do Argus.
+- src/colossus-hero.tsx: montagem configurável nas páginas dos colossos.
 - Styles/immersive.css: Tailwind v4 e estilos exclusivos da experiência.
 - components.json: configuração shadcn, com alias @/components/ui e TypeScript.
 - lib/utils.ts: utilitário cn para componentes shadcn.
-- Assets/argus-hero/: JS e CSS compilados, utilizados por Pages/Colosso15.html.
+- Assets/colossus-hero/: JS e CSS compilados, utilizados pelas 16 fichas.
 
 O projeto não tinha uma pasta de componentes. components/ui foi criada na raiz para manter os componentes reutilizáveis no caminho esperado pelos imports e pelo CLI shadcn. Styles/ permanece o diretório de estilos do projeto.
 
@@ -33,7 +33,7 @@ Para servir o site localmente após compilar:
 corepack pnpm exec vite --host 127.0.0.1
 ```
 
-Abra /Pages/Colosso15.html. Para recompilar durante a edição, execute em outro terminal:
+Abra qualquer página de /Pages/Colosso1.html a /Pages/Colosso16.html. Para recompilar durante a edição, execute em outro terminal:
 
 ```sh
 corepack pnpm exec vite build --watch
@@ -57,6 +57,6 @@ O exemplo original importa next/image. Aqui ele foi adaptado para img com mídia
 
 ## Comportamento
 
-A seção fica fixa durante um trecho de rolagem nativa; a imagem de Argus se expande e o título sai de cena. O link para a ficha permanece disponível durante a animação.
+A seção fica fixa durante um trecho de rolagem nativa; a imagem de cada colosso se expande e o título sai de cena. O link para a ficha permanece disponível durante a animação.
 
 Com prefers-reduced-motion, a expansão automática é desativada. Sem JavaScript, a ficha continua acessível.

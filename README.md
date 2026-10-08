@@ -1,6 +1,6 @@
 # Project Colossus
 
-Site sobre Shadow of the Colossus.
+Site sobre Shadow of the Colossus, com uma apresentação animada por rolagem nas fichas dos 16 colossos.
 
 ## Organização
 
