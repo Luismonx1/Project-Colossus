@@ -1,44 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Styles/mapa.css">
-    <script defer src="/Scripts/mapa.js"></script>
-    <title>Mapa Interativo</title>
-</head>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Explore as Terras Proibidas e descubra a localização dos 16 colossos no mapa."><title>Mapa das Terras Proibidas | Project Colossus</title><link rel="stylesheet" href="../Styles/mapa.css"><script defer src="../Scripts/mapa.js"></script></head>
 <body>
-    <section id="mapa-colossos">
-    <h2>Mapa Interativo</h2>
-
-    <div id="map">
-        <!-- Ponto do Colosso 1 -->
-        <div class="marker" style="top: 40%; left: 30%;" data-name="Valus" data-id="1"></div>
-
-        <!-- Ponto do Colosso 2 -->
-        <div class="marker" style="top: 55%; left: 25%;" data-name="Quadratus" data-id="2"></div>
-
-        <!-- Ponto do Colosso 3 -->
-        <div class="marker" style="top: 35%; left: 60%;" data-name="Gaius" data-id="3"></div>
-
-        <!-- Ponto do Colosso 4 -->
-        <div class="marker" style="top: 70%; left: 50%;" data-name="Phaedra" data-id="4"></div>
-    </div>
-
-    <!-- Popup do marcador -->
-    <div id="popup">
-        <h3 id="popup-title"></h3>
-        <button id="close-popup">Fechar</button>
-    </div>
+<a class="skip-link" href="#mapa-colossos">Pular para o mapa</a>
+<header><nav class="navbar" aria-label="Navegação principal"><a class="logo" href="HomePage.html">Project Colossus</a><div class="nav-links"><a href="HomePage.html">Início</a><a href="HomePage.html#colossos">Colossos</a><a href="mapa.html" aria-current="page">Mapa</a></div></nav></header>
+<main id="mapa-colossos">
+<a class="back-link" href="HomePage.html">← Voltar ao início</a>
+<div class="map-heading"><div><p class="eyebrow">Atlas · Shadow of the Colossus</p><h1>Terras Proibidas</h1></div><p class="intro">Dezesseis encontros espalhados pelo silêncio.<br>Toque em um marcador para descobrir quem habita ali.</p></div>
+<section class="map-panel" aria-label="Mapa interativo dos colossos">
+<div class="map-toolbar"><span><i aria-hidden="true"></i> Localização dos colossos</span><span class="map-count">16 encontros</span></div>
+<div class="map-scroll" tabindex="0" role="region" aria-label="Mapa com rolagem horizontal em telas pequenas" aria-describedby="map-help">
+<div class="map-canvas" id="map">
+<img class="map-image" src="../Images/Outros/MapaExplorado.jpg" alt="Mapa do jogo Shadow of the Colossus, explorado, sem a névoa das arenas, com quadrantes de A a J e de 0 a 8." width="800" height="800" fetchpriority="high" draggable="false">
+<button class="marker" style="--x:55.500%;--y:55.000%" data-name="Valus" data-number="01" aria-label="01 · Valus, quadrante F5" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:56.000%;--y:37.125%" data-name="Quadratus" data-number="02" aria-label="02 · Quadratus, quadrante F3" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:44.625%;--y:25.375%" data-name="Gaius" data-number="03" aria-label="03 · Gaius, quadrante E2" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:67.250%;--y:55.250%" data-name="Phaedra" data-number="04" aria-label="04 · Phaedra, quadrante G5" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:75.625%;--y:44.875%" data-name="Avion" data-number="05" aria-label="05 · Avion, quadrante H4" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:36.250%;--y:67.625%" data-name="Barba" data-number="06" aria-label="06 · Barba, quadrante D6" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:34.625%;--y:13.125%" data-name="Hydrus" data-number="07" aria-label="07 · Hydrus, quadrante D1" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:63.875%;--y:66.250%" data-name="Kuromori" data-number="08" aria-label="08 · Kuromori, quadrante G6" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:34.500%;--y:34.750%" data-name="Basaran" data-number="09" aria-label="09 · Basaran, quadrante D3" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:13.625%;--y:44.750%" data-name="Dirge" data-number="10" aria-label="10 · Dirge, quadrante B4" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:56.000%;--y:14.375%" data-name="Celosia" data-number="11" aria-label="11 · Celosia, quadrante F1" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:67.375%;--y:26.875%" data-name="Pelagia" data-number="12" aria-label="12 · Pelagia, quadrante G2" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:47.000%;--y:67.125%" data-name="Phalanx" data-number="13" aria-label="13 · Phalanx, quadrante E6" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:24.750%;--y:23.500%" data-name="Cenobia" data-number="14" aria-label="14 · Cenobia, quadrante C2" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:68.875%;--y:13.125%" data-name="Argus" data-number="15" aria-label="15 · Argus, quadrante G1" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<button class="marker" style="--x:56.000%;--y:86.750%" data-name="Malus" data-number="16" aria-label="16 · Malus, quadrante F8" aria-expanded="false" aria-controls="map-popup"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 30S2 18 2 12a10 10 0 0 1 20 0c0 6-10 18-10 18Z"/><circle cx="12" cy="12" r="3.5"/></svg></button>
+<div class="map-popup" id="map-popup" role="dialog" aria-labelledby="popup-title" hidden><button class="close-popup" type="button" aria-label="Fechar nome do colosso">×</button><p class="popup-number" id="popup-number"></p><h2 id="popup-title"><a id="popup-link"></a></h2></div>
+</div></div>
+<div class="map-caption"><p id="map-help">Selecione um pin para revelar o nome.<span class="mobile-help"> Deslize o mapa para explorar os lados.</span></p><p>Posições aproximadas · <a href="https://nomads-sotc-blog.blogspot.com/2013/09/maps-symbols-icons-secrets.html" target="_blank" rel="noopener noreferrer">Mapa: Nomad’s blog ↗</a></p></div>
 </section>
-
-</div>
-
-
-
-
-
-
-
-</body>
-</html>
+<div class="map-bottom"><span class="eyebrow">Cada caminho leva a um gigante.</span><a href="HomePage.html#colossos">Conhecer os colossos <span aria-hidden="true">↗</span></a></div>
+</main>
+<footer><a class="logo" href="HomePage.html">Project Colossus</a><p>Um projeto de fã dedicado a Shadow of the Colossus.</p></footer>
+</body></html>

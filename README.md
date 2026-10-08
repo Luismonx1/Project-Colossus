@@ -1,45 +1,35 @@
-# 🚀 Project Colossus  
-Um projeto Fullstack moderno desenvolvido para demonstrar boas práticas de arquitetura, organização, banco de dados, API e interface web.  
-Ideal para portfólio e evolução profissional.
+# Project Colossus
 
----
+Site sobre Shadow of the Colossus.
 
-## 📖 Sobre o Projeto
+## Organização
 
-**Project Colossus** é um sistema Fullstack criado com o objetivo de explorar integrações entre  
-**Front-end + Back-end + Banco de Dados**, aplicando conceitos reais de desenvolvimento web.
+- `Pages/`, `Styles/`, `Scripts/`: páginas, estilos e JavaScript do site.
+- `Images/`, `Sounds/`: mídias utilizadas pelo site.
+- `Assets/`: recursos compilados.
+- `src/`, `components/`, `lib/`: código React e utilitários.
+- `tools/`: servidores locais, verificações e scripts de manutenção.
+- `tools/templates/`: modelos usados pelos scripts de geração.
+- `references/`: HTML de referência usado durante o desenvolvimento.
+- `docs/REACT-SETUP.md`: configuração e compilação da experiência React.
 
+## Comandos
 
----
+Execute a partir desta pasta:
 
+```sh
+node tools/serve.cjs
+node tools/audit-project.cjs
+node tools/validate-colossi.cjs
+npm run build
+```
 
-## 🎮 Contextualização do Tema — *Shadow of the Colossus*
+O servidor abre o site em http://127.0.0.1:8765/Pages/HomePage.html.
 
-Este projeto utiliza como base temática o universo do jogo **Shadow of the Colossus**, uma obra icônica conhecida por sua atmosfera minimalista, narrativa emocional e confrontos monumentais contra colossos espalhados pelas Forbidden Lands.
+Os scripts `build-*`, `update-*`, `fix-project`, `redesign`, `revise-wander`,
+`integrate-hero` registram operações de manutenção e podem
+reescrever conteúdo. Não é necessário executá-los para visualizar o site.
+Algumas ferramentas históricas ainda usam a cópia original da Área de Trabalho
+ou dependências locais. Confira seus caminhos antes de executá-las.
 
-O objetivo não é recriar o jogo, mas sim explorar seu conteúdo como fonte de dados.  
-Assim, elementos como **colossos, regiões, lore e características do mundo** servem como insumo para:
-
-- Estruturar o banco de dados  
-- Criar rotas da API  
-- Montar páginas do front-end  
-- Exibir informações e curiosidades do jogo  
-
-
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-### **Back-end**
-
-
-### **Front-end**
-
-
-### **Ferramentas**
-
-
-
-
-
+Os caminhos descritos em docs/ são relativos à raiz do projeto.
