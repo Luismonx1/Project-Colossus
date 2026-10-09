@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
 export interface ScrollExpandMediaProps {
   mediaSrc: string;
@@ -22,6 +22,8 @@ export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
   const reduced = useReducedMotion();
   const [viewport, setViewport] = useState({ width: 1280, height: 800 });
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
+  const [fullyExpanded, setFullyExpanded] = useState(false);
+  useMotionValueEvent(scrollYProgress, 'change', progress => setFullyExpanded(progress >= .999));
   const width = useTransform(scrollYProgress, [0, 1], [Math.min(340, viewport.width * .78), Math.min(1280, viewport.width * .94)]);
   const height = useTransform(scrollYProgress, [0, 1], [Math.min(420, viewport.height * .58), viewport.height * .84]);
   const radius = useTransform(scrollYProgress, [0, 1], [20, 4]);
@@ -46,7 +48,12 @@ export default function ScrollExpandMedia({ mediaSrc, bgImageSrc,
         <motion.div className="expansion-media" style={{ width: reduced ? '94%' : width, height: reduced ? '70svh' : height, borderRadius: reduced ? 4 : radius }}>
           <img className="expansion-poster" src={mediaSrc} alt={title} style={{ objectPosition: imagePosition }} />
           <div className="expansion-media-shade" />
-
+          <motion.p className="expansion-art-disclosure"
+            initial={false}
+            animate={{ opacity: reduced || fullyExpanded ? 1 : 0 }}
+            transition={{ duration: reduced ? 0 : .25 }}>
+            Interpretação artística · imagem gerada por IA
+          </motion.p>
         </motion.div>
         <motion.div className={`expansion-title ${textBlend ? 'blend-title' : ''}`} style={{ x: reduced ? 0 : textX, opacity: reduced ? 1 : textOpacity }}>
           {date && <p className="expansion-eyebrow">{date}</p>}
