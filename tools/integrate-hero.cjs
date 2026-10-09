@@ -5,6 +5,7 @@ const escapeAttribute = value => value.replaceAll('&', '&amp;').replaceAll('"', 
 const alternateHeroImages = {
   Valus: '../Images/Colossos/Valus/ValusScrollHero.webp',
   Quadratus: '../Images/Colossos/Quadratus/QuadratusScrollHero.webp',
+  Gaius: '../Images/Colossos/Gaius/GaiusScrollHero.webp',
 };
 
 for (let number = 1; number <= 16; number++) {
