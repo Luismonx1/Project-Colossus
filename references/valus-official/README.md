@@ -4,7 +4,7 @@ O nome desta pasta registra a intenção da pesquisa, não uma certificação da
 
 ## Referências efetivamente usadas
 
-- `../../Images/Colossos/Valus/ValusTemplate.webp`: modelo de referência preexistente no projeto; origem editorial não verificada.
+- `references/models/ValusTemplate.webp`: modelo de referência preexistente no projeto; origem editorial não verificada.
 - `valus-front.jpg`: captura publicada pela Eurogamer: https://www.eurogamer.pt/shadow-of-the-colossus-como-derrotar-o-colossus-1
 - `valus-crown.jpg` e `valus-leg.jpg`: capturas publicadas pelo RPG Site: https://www.rpgsite.net/feature/6708-shadow-of-the-colossus-walkthrough-guide-part-1-how-to-defeat-the-first-second-and-third-colossi
 - `valus-body.jpg`: captura publicada pela Atresmedia: https://neox.atresmedia.com/games/noticias/actualidad/los-creadores-del-remake-de-shadow-of-the-colossus-hablan-de-su-nuevo-juego-video_201904075ca9ccf10cf231729e14a532.html

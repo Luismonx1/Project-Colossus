@@ -5,7 +5,6 @@ O site estático incorpora uma aplicação React pequena, compilada com Vite, no
 ## Estrutura
 
 - components/ui/scroll-expansion-hero.tsx: componente reutilizável adaptado do exemplo fornecido.
-- components/demo.tsx: variantes de imagem com os arquivos locais.
 - src/colossus-hero.tsx: montagem configurável nas páginas dos colossos.
 - Styles/immersive.css: Tailwind v4 e estilos exclusivos da experiência.
 - components.json: configuração shadcn, com alias @/components/ui e TypeScript.
@@ -59,6 +58,8 @@ O exemplo original importa next/image. Aqui ele foi adaptado para img com mídia
 
 A seção fica fixa durante um trecho de rolagem nativa; a imagem de cada colosso se expande e o título sai de cena. O link para a ficha permanece disponível durante a animação.
 
-A página de Valus usa `ValusScrollHero.webp` na abertura animada como teste de direção visual, enquanto a ficha mantém `ValusCinematic.png`. As demais páginas ainda reutilizam a mesma arte nas duas áreas.
+Valus até Kuromori usam `NomeScrollHero.webp` na abertura animada e mantêm o retrato `NomeCinematic` na ficha. Basaran até Malus ainda reutilizam o retrato até a aprovação das novas artes. O mapeamento fica em `tools/integrate-hero.cjs`.
+
+Ao concluir a expansão, o canto inferior direito mostra “Interpretação artística · imagem gerada por IA”. O aviso é compartilhado pelas 16 páginas e aparece imediatamente com movimento reduzido.
 
 Com prefers-reduced-motion, a expansão automática é desativada. Sem JavaScript, a ficha continua acessível.

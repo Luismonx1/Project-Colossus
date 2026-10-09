@@ -1,6 +1,6 @@
 # Referências de Quadratus
 
-Nova arte da abertura gerada com a ferramenta integrada a partir de quatro referências: o modelo preexistente `Images/Colossos/Quadratus/QuadratusTemplate.webp` (origem editorial não verificada) e três capturas do jogo publicadas pela imprensa. A arte anterior gerada não foi usada como referência.
+Nova arte da abertura gerada com a ferramenta integrada a partir de quatro referências: o modelo preexistente `references/models/QuadratusTemplate.webp` (origem editorial não verificada) e três capturas do jogo publicadas pela imprensa. A arte anterior gerada não foi usada como referência.
 
 - `gameplay-side.jpg`: rosto e chifres, https://www.supersoluce.com/soluce/ico-shadow-colossus/colosse-2-quadratus
 - `gameplay-head.jpg`: máscara e topo da cabeça, https://www.hobbyconsolas.com/guias-trucos/shadow-colossus-ps4/como-derrotar-segundo-coloso-shadow-colossus-ps4-189220
