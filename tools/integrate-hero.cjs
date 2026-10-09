@@ -7,6 +7,7 @@ const alternateHeroImages = {
   Quadratus: '../Images/Colossos/Quadratus/QuadratusScrollHero.webp',
   Gaius: '../Images/Colossos/Gaius/GaiusScrollHero.webp',
   Phaedra: '../Images/Colossos/Phaedra/PhaedraScrollHero.webp',
+  Avion: '../Images/Colossos/Avion/AvionScrollHero.webp',
 };
 
 for (let number = 1; number <= 16; number++) {
