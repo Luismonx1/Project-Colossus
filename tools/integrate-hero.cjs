@@ -12,6 +12,7 @@ const alternateHeroImages = {
   Hydrus: '../Images/Colossos/Hydrus/HydrusScrollHero.webp',
   Kuromori: '../Images/Colossos/Kuromori/KuromoriScrollHero.webp',
   Basaran: '../Images/Colossos/Basaran/BasaranScrollHero.webp',
+  Dirge: '../Images/Colossos/Dirge/DirgeScrollHero.webp',
 };
 
 for (let number = 1; number <= 16; number++) {
