@@ -15,6 +15,7 @@ const alternateHeroImages = {
   Dirge: '../Images/Colossos/Dirge/DirgeScrollHero.webp',
   Celosia: '../Images/Colossos/Celosia/CelosiaScrollHero.webp',
   Pelagia: '../Images/Colossos/Pelagia/PelagiaScrollHero.webp',
+  Phalanx: '../Images/Colossos/Phalanx/PhalanxScrollHero.webp',
 };
 
 for (let number = 1; number <= 16; number++) {
