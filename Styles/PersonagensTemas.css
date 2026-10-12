@@ -5,6 +5,8 @@
 .game-capture figcaption a{text-decoration:underline;text-underline-offset:3px}
 .dormin-capture{margin:0;align-self:center;box-shadow:0 16px 50px #0006}
 .cursed-capture{max-width:480px;margin:24px auto}
+.dormin-appearance{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,4vw,56px);align-items:center;border-top:1px solid var(--line);margin-bottom:24px}
+@media(max-width:760px){.dormin-appearance{grid-template-columns:1fr}}
 .character-page .text-section p{color:var(--muted)}
 .character-page .hero-subtitle{color:var(--text)}
 .character-page .story-tag,.character-page .story-index{color:var(--accent)}
