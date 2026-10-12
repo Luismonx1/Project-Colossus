@@ -10,10 +10,15 @@ function check(file, ref) {
   const target = url ? path.resolve(root, path.dirname(file), decodeURIComponent(url)) : path.join(root, file);
   if (!fs.existsSync(target)) { issues.push({file, ref}); return; }
   used.add(path.relative(root, target).replaceAll('\\', '/'));
+  const fragment = ref.split('#')[1];
+  if (fragment && target.endsWith('.html')) {
+    const ids = [...fs.readFileSync(target, 'utf8').matchAll(/\bid=["']([^"']+)["']/g)].map(m => m[1]);
+    if (!ids.includes(decodeURIComponent(fragment))) issues.push({file, ref, issue:'missing anchor'});
+  }
   if (!fs.readdirSync(path.dirname(target)).includes(path.basename(target))) issues.push({file, ref, issue:'filename case'});
 }
 for (const file of ['index.html', ...walk('Pages')]) {
-  for (const m of fs.readFileSync(path.join(root,file),'utf8').matchAll(/(?:href|src|data-image)=["']([^"']+)["']/g)) check(file,m[1]);
+  for (const m of fs.readFileSync(path.join(root,file),'utf8').matchAll(/(?:href|src|data-image|data-link)=["']([^"']+)["']/g)) check(file,m[1]);
 }
 for (const file of [...used].filter(f => f.endsWith('.css'))) {
   for (const m of fs.readFileSync(path.join(root,file),'utf8').matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)) check(file,m[1]);

@@ -2,7 +2,7 @@ const projectRoot = require('path').resolve(__dirname, '..');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp', '.wav': 'audio/wav' };
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.wav': 'audio/wav' };
 http.createServer((req, res) => {
     let requested;
     try { requested = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); }

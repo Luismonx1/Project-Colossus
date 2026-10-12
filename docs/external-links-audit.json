@@ -216,9 +216,49 @@
       "finalUrl": "https://colossipedia.blogspot.com/2017/08/basaran.html"
     },
     {
+      "url": "https://www.techtudo.com.br/listas/2022/08/10-finais-marcantes-dos-games-que-os-jogadores-nunca-vao-esquecer.ghtml",
+      "status": 200,
+      "finalUrl": "https://www.techtudo.com.br/listas/2022/08/10-finais-marcantes-dos-games-que-os-jogadores-nunca-vao-esquecer.ghtml"
+    },
+    {
+      "url": "https://gamefaqs.gamespot.com/ps2/924364-shadow-of-the-colossus/faqs/39549/epilogue",
+      "status": 403,
+      "finalUrl": "https://gamefaqs.gamespot.com/ps2/924364-shadow-of-the-colossus/faqs/39549/epilogue"
+    },
+    {
+      "url": "https://teamico.fandom.com/wiki/Dormin",
+      "status": 403,
+      "finalUrl": "https://teamico.fandom.com/wiki/Dormin"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Shadow_of_the_Colossus",
+      "status": 200,
+      "finalUrl": "https://en.wikipedia.org/wiki/Shadow_of_the_Colossus"
+    },
+    {
+      "url": "https://teamico.fandom.com/wiki/Lord_Emon",
+      "status": 403,
+      "finalUrl": "https://teamico.fandom.com/wiki/Lord_Emon"
+    },
+    {
+      "url": "https://shadowofthecolossus.neoseeker.com/wiki/Lord_Emon",
+      "status": 403,
+      "finalUrl": "https://shadowofthecolossus.neoseeker.com/wiki/Lord_Emon"
+    },
+    {
       "url": "https://nomads-sotc-blog.blogspot.com/2013/09/maps-symbols-icons-secrets.html",
       "status": 200,
       "finalUrl": "https://nomads-sotc-blog.blogspot.com/2013/09/maps-symbols-icons-secrets.html"
+    },
+    {
+      "url": "https://www.tomshw.it/videogioco/shadow-of-the-colossus-ps4-guida-completa/shadow-of-the-colossus-come-battere-colosso-1-valus",
+      "status": 403,
+      "finalUrl": "https://www.tomshw.it/videogioco/shadow-of-the-colossus-ps4-guida-completa/shadow-of-the-colossus-come-battere-colosso-1-valus"
+    },
+    {
+      "url": "https://teamico.fandom.com/wiki/Mono",
+      "status": 403,
+      "finalUrl": "https://teamico.fandom.com/wiki/Mono"
     },
     {
       "url": "https://blog.playstation.com/2018/02/16/share-of-the-week-shadow-of-the-colossus/",
@@ -226,9 +266,9 @@
       "finalUrl": "https://blog.playstation.com/2018/02/16/share-of-the-week-shadow-of-the-colossus/"
     },
     {
-      "url": "https://en.wikipedia.org/wiki/Shadow_of_the_Colossus",
-      "status": 200,
-      "finalUrl": "https://en.wikipedia.org/wiki/Shadow_of_the_Colossus"
+      "url": "https://vocal.media/gamers/wander-a-one-of-a-kind-character",
+      "status": 403,
+      "finalUrl": "https://vocal.media/gamers/wander-a-one-of-a-kind-character"
     },
     {
       "url": "https://teamico.fandom.com/wiki/Wander",
@@ -240,5 +280,6 @@
       "status": 200,
       "finalUrl": "https://blog.playstation.com/2018/01/16/shadow-of-the-colossus-photo-mode-revealed/"
     }
-  ]
+  ],
+  "checkedAt": "2026-10-12"
 }

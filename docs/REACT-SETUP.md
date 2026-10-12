@@ -58,7 +58,7 @@ O exemplo original importa next/image. Aqui ele foi adaptado para img com mídia
 
 A seção fica fixa durante um trecho de rolagem nativa; a imagem de cada colosso se expande e o título sai de cena. O link para a ficha permanece disponível durante a animação.
 
-Valus até Kuromori usam `NomeScrollHero.webp` na abertura animada e mantêm o retrato `NomeCinematic` na ficha. Basaran até Malus ainda reutilizam o retrato até a aprovação das novas artes. O mapeamento fica em `tools/integrate-hero.cjs`.
+Os 16 colossos usam `NomeScrollHero.webp` na abertura animada e mantêm o retrato `NomeCinematic` na ficha. O mapeamento fica em `tools/integrate-hero.cjs`.
 
 Ao concluir a expansão, o canto inferior direito mostra “Interpretação artística · imagem gerada por IA”. O aviso é compartilhado pelas 16 páginas e aparece imediatamente com movimento reduzido.
 

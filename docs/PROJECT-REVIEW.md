@@ -1,11 +1,24 @@
-# Revisão do projeto — 09/10/2026
+# Revisão do projeto — 12/10/2026
 
-Removidos arquivos duplicados na raiz de Images/Colossos, exportações PNG sem uso, 16 estilos antigos, estilos vazios de Mono e Dormin, página Colosso1.new.html, componente de demonstração, imagens de personagens sem uso e uma versão descartada de Valus. Scripts históricos de geração/migração e seus templates foram retirados: alguns apontavam para outra cópia do repositório ou sobrescreviam páginas com versões antigas.
+## Estrutura e nomes
 
-Mantidos os retratos usados, aberturas aprovadas, prompts e referências de produção. Os modelos foram organizados em references/models, pois são insumos para gerar as próximas artes. A configuração shadcn e lib/utils.ts permanecem como suporte ao desenvolvimento de componentes.
+As 22 páginas têm referências locais e âncoras válidas. Pages contém HTML, Styles os estilos compartilhados e específicos, Scripts as interações, Assets os bundles compilados, e Images/Sounds as mídias. As quatro páginas de personagens estão concluídas. Os 16 colossos usam aberturas ScrollHero separadas dos retratos Cinematic.
 
-Nomes das páginas preservados para não quebrar endereços existentes. Os nomes Cinematic, ScrollHero e Template identificam respectivamente retrato, abertura e referência. Mono e Dormin são páginas intencionalmente em preparação.
+Mantidos Colosso1.html a Colosso16.html e mapa.html para preservar URLs existentes. Personagens.css e PersonagensTemas.css distinguem estrutura e temas. Prompts e referências visuais foram preservados como documentação útil para ajustes, mesmo sem serem carregados pelo site.
 
-Links externos das páginas: 48 endereços verificados; 41 retornaram HTTP 200 e 7 retornaram HTTP 403. Nenhum retornou 404. Os bloqueados foram mantidos, pois o bloqueio não comprova remoção do conteúdo. Respostas detalhadas em external-links-audit.json.
+## Limpeza e correções
 
-Verificações locais: audit-project, audit-links, validate-colossi e compilação TypeScript/Vite. A revisão não substitui inspeção visual em diferentes navegadores.
+- Removidos references/map-source.html e references/wander-source.html: cópias HTML de pesquisa antigas, sem referências no projeto.
+- Removido tools/serve-repository.cjs: servidor redundante. O servidor documentado é tools/serve.cjs.
+- Removida a pasta vazia Images/Emon, deixada por uma tentativa de download. A página reutiliza a captura existente de Dormin e Emon.
+- Corrigidos os tipos MIME de PNG, JPG, JPEG e SVG no servidor local.
+- A auditoria de links agora inclui data-link e os destinos das âncoras.
+- Atualizados README e documentação React para refletir as páginas e artes atuais.
+
+## Verificações
+
+Auditorias locais sem erros e sem mídias órfãs em Images/Sounds. TypeScript e Vite compilam com sucesso. Vite emite avisos da dependência Framer Motion sobre diretivas use client ignoradas no bundle IIFE; a compilação termina normalmente.
+
+56 URLs externas verificadas: 42 responderam HTTP 200; 14 responderam HTTP 403. Nenhum HTTP 404. Os 403 impedem confirmar automaticamente a disponibilidade para uma pessoa no navegador; não comprovam que a página foi removida. Os endereços foram preservados e registrados em external-links-audit.json.
+
+Esta revisão valida estrutura, referências e compilação; não certifica todos os estados visuais e interações em todos os navegadores.
