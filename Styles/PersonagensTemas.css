@@ -31,17 +31,26 @@
 .character-page .hero-portrait{background:var(--panel)}
 .character-page .facts dd{font-size:clamp(17px,2vw,23px)}
 .character-page .section-nav a{min-height:40px}
-.wander-page{--bg:#191b17;--panel:#25271f;--text:#f0e5ce;--muted:#c3bda9;--line:#535442;--accent:#d0b878;background:radial-gradient(ellipse at top right,#44463155,transparent 55%),var(--bg)}
-.wander-page .character-hero{border:0;border-bottom:3px solid var(--accent);background:linear-gradient(125deg,#353a29,#171d18)}
+.wander-page{--bg:#0b0d10;--panel:#202328;--text:#f0eee7;--muted:#d0d0cc;--line:#61656b;--accent:#d0b878;background:linear-gradient(to bottom,#ffffff 0,#34373c calc(var(--corruption-depth, 2400px) * .45),#191c21 calc(var(--corruption-depth, 2400px) * .8),#0b0d10 var(--corruption-depth, 2400px));background-color:var(--bg);background-repeat:no-repeat}
+.wander-page .character-hero{border:0;border-bottom:3px solid var(--accent);background:linear-gradient(125deg,#ffffff0a,#10131866)}
 .wander-page .hero-copy{border-left:5px double var(--accent)}
 .wander-page .hero-copy h1{font-style:italic}
 .wander-page .hero-portrait{transform:rotate(-2deg);box-shadow:12px 16px 0 #0c100b66;margin:32px}
-.wander-page .story,.wander-page #passado{background:linear-gradient(100deg,#303326,#1b201a);border:0;border-left:1px solid var(--line)}
+.wander-page .story,.wander-page #passado{background:linear-gradient(100deg,#ffffff05,#080b1033);border:0;border-left:1px solid var(--line)}
 .wander-page .story-heading{border-left:1px dashed var(--accent)}
 .wander-page .story-index{font-style:normal;font-size:40px}
-.wander-page .cursed-appearance{background:linear-gradient(130deg,#222821,#0c1011);border-color:#53635a}
-.wander-page .companion{background:#252d21}
+.wander-page .cursed-appearance{background:linear-gradient(160deg,#1a2028,#080b10);border-color:#485664;box-shadow:0 20px 60px #0004}
+.wander-page .companion{background:#151a20}
+.wander-page .facts,.wander-page .spoiler-notice{background:#161a204d}
 .wander-page .curiosity-grid article{border-top:3px double var(--accent)}
+.wander-page .site-header,.wander-page .breadcrumb,.wander-page .spoiler-notice,.wander-page .character-hero,.wander-page .facts,.wander-page .section-nav{--text:#24282e;--muted:#40464e;--accent:#66512d;--line:#a4a7ab;--panel:#f5f5f3;color:var(--text)}
+.wander-page .site-header{background:#ffffffed}
+.wander-page .breadcrumb{background:#ffffffeb;padding:26px 18px}
+.wander-page .character-hero{background:linear-gradient(125deg,#fff,#e2e3e5)}
+.wander-page .hero-portrait{background:#f5f5f3}
+.wander-page .facts,.wander-page .spoiler-notice{background:#f2f2f0}
+.wander-page .section-nav{background:#e2e3e5;padding-left:18px;padding-right:18px}
+.wander-page .story,.wander-page #passado{background:linear-gradient(100deg,#30343af5,#14181ef5)}
 .mono-page{color-scheme:light;--bg:#f0eee5;--panel:#faf8f0;--text:#333d38;--muted:#536057;--line:#b9c2b2;--accent:#526849;background:radial-gradient(ellipse at 50% 0,#fffefa,transparent 60%),var(--bg)}
 .mono-page .character-hero{grid-template-columns:1fr;border:0;background:transparent;text-align:center}
 .mono-page .hero-copy{align-items:center;padding:55px 24px 38px}
