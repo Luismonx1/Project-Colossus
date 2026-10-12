@@ -1,4 +1,19 @@
 /* Identidades visuais: estrada, luz e sombra. */
+.emon-page{--bg:#201b1b;--panel:#2d2424;--text:#f0e6d5;--muted:#c6b9aa;--line:#685347;--accent:#d5b87e;background:linear-gradient(90deg,#39262a44,transparent 30%,transparent 70%,#39262a44),var(--bg)}
+.emon-hero{position:relative;text-align:center;padding:clamp(40px,7vw,90px) 24px;border:1px solid var(--line);border-top:5px double var(--accent);border-bottom:5px double var(--accent);background:linear-gradient(120deg,#362429,#211c1c,#362429)}
+.emon-hero:before,.emon-hero:after{content:"";position:absolute;top:24px;bottom:24px;width:12px;border-left:1px solid var(--accent);border-right:1px solid var(--line);pointer-events:none}
+.emon-hero:before{left:18px}.emon-hero:after{right:18px}
+.emon-hero h1{font-size:clamp(76px,11vw,140px);letter-spacing:.06em;margin:22px 0}
+.emon-hero h1 span{display:block;font-size:20px;letter-spacing:.45em;text-transform:uppercase;margin-bottom:18px}
+.emon-motto{margin:36px 0 0;font:10px/1.8 Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase;color:var(--accent)}
+.emon-page .story{background:var(--panel);border:1px solid var(--line)}
+.emon-page .story-heading{border-left:3px double var(--accent)}
+.emon-page .story-index{font-style:normal;font-size:34px}
+.emon-page .facts{text-align:center;background:#2a2222}
+.emon-page .curiosity-grid article{background:var(--panel);border-top:3px double var(--accent)}
+.emon-scene{display:grid;grid-template-columns:.7fr 1.3fr;align-items:center;gap:40px;border-top:1px solid var(--line)}
+.emon-scene .game-capture{margin:0}
+@media(max-width:760px){.emon-scene{grid-template-columns:1fr;gap:24px}.emon-hero{padding:40px 30px}.emon-hero:before{left:8px}.emon-hero:after{right:8px}.emon-motto{letter-spacing:.1em}}
 .game-capture{margin:24px 0;border:1px solid var(--line);background:var(--panel);min-width:0}
 .game-capture img{display:block;width:100%;height:auto}
 .game-capture figcaption{padding:12px 16px;font:11px/1.7 Arial,sans-serif;color:var(--muted)}
