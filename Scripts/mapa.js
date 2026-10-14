@@ -4,6 +4,9 @@
   const markers = [...document.querySelectorAll('.marker')];
   const placeMarkers = [...document.querySelectorAll('.place-marker')];
   const entries = [...document.querySelectorAll('[data-encounter]')];
+  const collectibles = window.colossusCollectibles || [];
+  const collectibleMarkers = [];
+  const labels = { coins: 'Moedas', fruits: 'Frutas', lizards: 'Lagartos de cauda branca', shrines: 'Mini templo' };
   const key = 'colossus-atlas-progress-v1';
   let completed = new Set(), current = 1;
   try {
@@ -23,6 +26,11 @@
       if (!marker.hidden) visible++;
     });
     placeMarkers.forEach(marker => { marker.hidden = !get('show-places').checked; });
+    let regions = 0;
+    collectibleMarkers.forEach((marker, i) => {
+      marker.hidden = !get('show-' + collectibles[i].type).checked;
+      if (!marker.hidden) regions++;
+    });
     entries.forEach((entry, i) => {
       entry.hidden = pending && completed.has(i + 1);
       entry.classList.toggle('is-complete', completed.has(i + 1));
@@ -31,9 +39,11 @@
     get('empty-filter').hidden = !(pending && completed.size === 16);
     get('progress-label').textContent = completed.size + ' de 16 colossos derrotados';
     get('journey-progress').value = completed.size;
-    document.querySelector('.map-count').textContent = visible + ' colossos visíveis';
+    document.querySelector('.map-count').textContent = visible + ' colossos · ' + regions + ' pontos visíveis';
   }
   function select(number, announce = true) {
+    get('collectible-links').hidden = true;
+    collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     current = number;
     const card = cards[number - 1];
     get('detail-number').textContent = 'Colosso ' + String(number).padStart(2, '0') + ' · ' + card.coord;
@@ -52,6 +62,8 @@
   }
   markers.forEach((marker, i) => marker.addEventListener('click', () => select(i + 1)));
   placeMarkers.forEach((marker, i) => marker.addEventListener('click', () => {
+    get('collectible-links').hidden = true;
+    collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     const place = places[i];
     current = null;
     get('detail-number').textContent = 'Ponto de interesse · ' + place[1];
@@ -72,7 +84,58 @@
     catch { get('save-status').textContent = 'Não foi possível salvar neste navegador. O progresso será mantido apenas durante esta visita.'; }
     refresh();
   });
-  ['show-colossi', 'show-places', 'only-pending'].forEach(id => get(id).addEventListener('change', refresh));
+  collectibles.forEach(group => {
+    const marker = document.createElement('button');
+    marker.type = 'button';
+    marker.className = 'collectible-marker collectible-' + group.type;
+    marker.style.setProperty('--x', group.x + '%');
+    marker.style.setProperty('--y', group.y + '%');
+    marker.textContent = { coins: '◉', fruits: '♣', lizards: '∿', shrines: '⌂' }[group.type];
+    marker.title = labels[group.type] + ' ' + group.id + ' · ' + group.coord;
+    marker.setAttribute('aria-label', labels[group.type] + ' ' + group.id + ', quadrante ' + group.coord);
+    marker.setAttribute('aria-controls', 'atlas-detail');
+    marker.setAttribute('aria-describedby', 'collectibles-help');
+    marker.setAttribute('aria-pressed', 'false');
+    marker.hidden = true;
+    marker.addEventListener('click', () => {
+      current = null;
+      [...markers, ...placeMarkers, ...collectibleMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
+      get('detail-number').textContent = 'Ponto ' + String(group.id).padStart(2, '0') + ' · ' + group.coord;
+      get('detail-name').textContent = labels[group.type];
+      get('detail-image').hidden = true;
+      get('detail-credit').hidden = true;
+      get('completion-control').hidden = true;
+      const descriptions = {
+        coins: 'Moeda dourada do remake de PS4. O ponto corresponde ao marcador do mapa de referência; a altura e o caminho de acesso devem ser conferidos no guia.',
+        fruits: 'Ponto de árvore frutífera indicado no mapa de referência. Uma árvore pode conter várias frutas.',
+        lizards: 'Ponto de lagarto de cauda branca indicado no mapa de referência. Procure nas pedras e estruturas próximas; o animal pode se mover.',
+        shrines: 'Mini templo de oração indicado no mapa de referência. O Santuário da Adoração aparece separadamente no filtro Locais.'
+      };
+      get('detail-description').textContent = descriptions[group.type];
+      get('detail-link').href = 'https://www.portale7.com.br/2018/02/localizacao-dos-santuarios-lagartos.html';
+      get('detail-link').textContent = 'Consultar mapa de referência ↗';
+      get('collectible-links').replaceChildren();
+      get('collectible-links').hidden = true;
+      get('selection-status').textContent = labels[group.type] + ' em ' + group.coord + '. Guia atualizado.';
+    });
+    collectibleMarkers.push(marker);
+    get('map').append(marker);
+  });
+  ['show-colossi', 'show-places', 'only-pending', 'show-coins', 'show-fruits', 'show-lizards', 'show-shrines'].forEach(id => get(id).addEventListener('change', refresh));
+  let zoom = 1;
+  function setZoom(value) {
+    zoom = Math.max(1, Math.min(3, value));
+    const baseWidth = Math.max(825, get('map').parentElement.clientWidth);
+    get('map').style.width = (baseWidth * zoom) + 'px';
+    get('zoom-level').textContent = Math.round(zoom * 100) + '%';
+    get('zoom-out').disabled = zoom === 1;
+    get('zoom-in').disabled = zoom === 3;
+  }
+  get('zoom-in').addEventListener('click', () => setZoom(zoom + 0.5));
+  get('zoom-out').addEventListener('click', () => setZoom(zoom - 0.5));
+  get('zoom-reset').addEventListener('click', () => setZoom(1));
+  window.addEventListener('resize', () => setZoom(zoom));
+  setZoom(1);
   select(1, false);
   refresh();
 })();
