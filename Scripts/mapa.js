@@ -54,6 +54,7 @@
     get('detail-image').hidden = false;
     get('detail-credit').hidden = false;
     get('detail-link').href = 'Colosso' + number + '.html';
+    get('detail-link').hidden = false;
     get('detail-link').textContent = 'Abrir ficha ↗';
     get('completion-control').hidden = false;
     get('mark-complete').checked = completed.has(number);
@@ -69,11 +70,12 @@
     get('detail-number').textContent = 'Ponto de interesse · ' + place[1];
     get('detail-name').textContent = place[0];
     get('detail-description').textContent = place[4];
-    get('detail-image').hidden = true;
+    get('detail-image').src = place[5];
+    get('detail-image').alt = place[0] + ' em Shadow of the Colossus';
+    get('detail-image').hidden = false;
     get('detail-credit').hidden = true;
     get('completion-control').hidden = true;
-    get('detail-link').href = place[5];
-    get('detail-link').textContent = 'Conhecer a história ↗';
+    get('detail-link').hidden = true;
     [...markers, ...placeMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
     get('selection-status').textContent = place[0] + ' selecionado.';
   }));
@@ -113,6 +115,7 @@
       };
       get('detail-description').textContent = descriptions[group.type];
       get('detail-link').href = 'https://www.portale7.com.br/2018/02/localizacao-dos-santuarios-lagartos.html';
+      get('detail-link').hidden = false;
       get('detail-link').textContent = 'Consultar mapa de referência ↗';
       get('collectible-links').replaceChildren();
       get('collectible-links').hidden = true;
@@ -123,6 +126,43 @@
   });
   ['show-colossi', 'show-places', 'only-pending', 'show-coins', 'show-fruits', 'show-lizards', 'show-shrines'].forEach(id => get(id).addEventListener('change', refresh));
   let zoom = 1;
+  const viewport = get('map').parentElement;
+  let drag = null, suppressClick = false;
+  viewport.addEventListener('pointerdown', event => {
+    // Touch uses native scrolling, including pinch gestures and page navigation.
+    if (event.pointerType === 'touch' || event.button !== 0 || !event.isPrimary) return;
+    suppressClick = false;
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY,
+      left: viewport.scrollLeft, top: viewport.scrollTop, moved: false };
+  });
+  viewport.addEventListener('pointermove', event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    if (!drag.moved && Math.hypot(dx, dy) < 5) return;
+    drag.moved = true;
+    suppressClick = true;
+    viewport.setPointerCapture(event.pointerId);
+    viewport.classList.add('is-dragging');
+    viewport.scrollLeft = drag.left - dx;
+    viewport.scrollTop = drag.top - dy;
+    event.preventDefault();
+  });
+  function endDrag(event) {
+    if (!drag || event.pointerId !== drag.id) return;
+    if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+    viewport.classList.remove('is-dragging');
+    drag = null;
+  }
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+  viewport.addEventListener('lostpointercapture', endDrag);
+  viewport.addEventListener('click', event => {
+    if (suppressClick && event.detail !== 0) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    suppressClick = false;
+  }, true);
   function setZoom(value) {
     zoom = Math.max(1, Math.min(3, value));
     const baseWidth = Math.max(825, get('map').parentElement.clientWidth);

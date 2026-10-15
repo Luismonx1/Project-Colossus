@@ -120,7 +120,7 @@ window.colossusAtlas = {
       55.5,
       47,
       "O centro da jornada: Wander retorna ao santuário depois de cada colosso.",
-      "Mono.html"
+      "../Images/Locais/SantuarioAdoracao.jpg"
     ],
     [
       "Ponte de entrada",
@@ -128,7 +128,7 @@ window.colossusAtlas = {
       56,
       23,
       "A longa ponte liga a entrada das Terras Proibidas ao santuário. O marcador indica um trecho da travessia.",
-      "Wander.html#historia"
+      "../Images/Locais/PonteEntrada.jpg"
     ]
   ]
 };

@@ -17,3 +17,8 @@ A precisão é a dos mapas de referência, não uma medição das coordenadas 3D
 Images/Outros/MapaTerrasProibidas.webp (1673 × 940) foi criada por edição com IA da referência de santuários enviada pelo usuário, removendo símbolos e preservando o enquadramento. Não é uma textura oficial sem alterações: há reconstrução de terreno nas áreas cobertas pelos ícones. A interface informa o uso de IA e a precisão limitada às referências. Atribuição original preservada na imagem.
 
 A busca encontrou uma textura sem marcadores, mas com nuvens sobre áreas importantes; por isso foi usada a alternativa autorizada de limpar a referência. Os 16 colossos e os dois locais também foram reposicionados para a nova base.
+
+## Imagens dos pontos de interesse
+- Santuário (captura do jogo, 1600 × 813): https://colossipedia.blogspot.com/2017/09/forbidden-lands.html — arquivo shrine-of-worship.jpg hospedado no Blogger.
+- Ponte de entrada (captura do jogo, 575 × 383): https://assetsio.gnwcdn.com/-1505817207970.jpg — CDN de imprensa Gamer Network.
+Imagens preservadas na resolução da fonte, sem geração por IA.
