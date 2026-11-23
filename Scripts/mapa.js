@@ -74,6 +74,7 @@
     document.querySelector('.map-count').textContent = visible + ' colossos · ' + regions + ' pontos visíveis';
   }
   function select(number, announce = true) {
+    get('quadrant-highlight').hidden = true;
     get('collectible-links').hidden = true;
     collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     current = number;
@@ -97,6 +98,7 @@
   }
   markers.forEach((marker, i) => marker.addEventListener('click', () => select(i + 1)));
   placeMarkers.forEach((marker, i) => marker.addEventListener('click', () => {
+    get('quadrant-highlight').hidden = true;
     get('collectible-links').hidden = true;
     collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     const place = places[i];
@@ -145,6 +147,7 @@
     marker.setAttribute('aria-pressed', 'false');
     marker.hidden = true;
     marker.addEventListener('click', () => {
+      get('quadrant-highlight').hidden = true;
       current = null;
       currentCollectible = group;
       [...markers, ...placeMarkers, ...collectibleMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
@@ -224,17 +227,138 @@
     }
     suppressClick = false;
   }, true);
-  function setZoom(value) {
-    zoom = Math.max(1, Math.min(3, value));
-    const baseWidth = Math.max(825, get('map').parentElement.clientWidth);
+  function setZoom(value, anchor = null) {
+    const nextZoom = Math.max(1, Math.min(3, value));
+    const oldWidth = get('map').offsetWidth || Math.max(825, viewport.clientWidth) * zoom;
+    const oldHeight = get('map').offsetHeight || oldWidth * 940 / 1673;
+    const anchorX = anchor?.x ?? viewport.clientWidth / 2;
+    const anchorY = anchor?.y ?? viewport.clientHeight / 2;
+    const ratioX = (viewport.scrollLeft + anchorX) / oldWidth;
+    const ratioY = (viewport.scrollTop + anchorY) / oldHeight;
+    zoom = nextZoom;
+    const baseWidth = Math.max(825, viewport.clientWidth);
     get('map').style.width = (baseWidth * zoom) + 'px';
+    const newWidth = get('map').offsetWidth;
+    const newHeight = get('map').offsetHeight;
+    viewport.scrollLeft = ratioX * newWidth - anchorX;
+    viewport.scrollTop = ratioY * newHeight - anchorY;
     get('zoom-level').textContent = Math.round(zoom * 100) + '%';
     get('zoom-out').disabled = zoom === 1;
     get('zoom-in').disabled = zoom === 3;
   }
   get('zoom-in').addEventListener('click', () => setZoom(zoom + 0.5));
   get('zoom-out').addEventListener('click', () => setZoom(zoom - 0.5));
-  get('zoom-reset').addEventListener('click', () => setZoom(1));
+  get('zoom-reset').addEventListener('click', () => {
+    setZoom(1);
+    viewport.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    get('quadrant-highlight').hidden = true;
+  });
+  viewport.addEventListener('wheel', event => {
+    if (Math.abs(event.deltaY) < 1) return;
+    event.preventDefault();
+    const bounds = viewport.getBoundingClientRect();
+    setZoom(zoom + (event.deltaY < 0 ? 0.25 : -0.25), {
+      x: event.clientX - bounds.left,
+      y: event.clientY - bounds.top
+    });
+  }, { passive: false });
+
+  const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+  const focusPoint = (x, y, target = null) => {
+    setZoom(Math.max(zoom, 1.75));
+    if (target) {
+      document.querySelectorAll('.search-highlight').forEach(item => item.classList.remove('search-highlight'));
+      target.classList.add('search-highlight');
+      window.setTimeout(() => target.classList.remove('search-highlight'), 2400);
+    }
+    requestAnimationFrame(() => viewport.scrollTo({
+      left: get('map').scrollWidth * x / 100 - viewport.clientWidth / 2,
+      top: get('map').scrollHeight * y / 100 - viewport.clientHeight / 2,
+      behavior: 'smooth'
+    }));
+  };
+  const markerPosition = marker => ({
+    x: parseFloat(marker.style.getPropertyValue('--x')),
+    y: parseFloat(marker.style.getPropertyValue('--y'))
+  });
+  const quadrantPosition = coord => {
+    const column = coord.charCodeAt(0) - 65;
+    const row = Number(coord.slice(1));
+    return { x: 19.125 + column * 6.75, y: row === 0 ? 2.8 : .3 + row * 11.1 };
+  };
+  const searchOptions = get('map-search-options');
+  [...cards.map((card, i) => card.name + ' · Colosso ' + String(i + 1).padStart(2, '0')),
+    ...places.map(place => place[0]),
+    ...new Set([...cards.map(card => card.coord), ...places.map(place => place[1]), ...collectibles.map(item => item.coord)])
+  ].forEach(value => {
+    const option = document.createElement('option');
+    option.value = value;
+    searchOptions.append(option);
+  });
+  function searchMap() {
+    const raw = get('map-search').value;
+    const query = normalize(raw.split(' · ')[0]);
+    if (!query) {
+      get('map-search-status').textContent = 'Digite o nome de um colosso, local ou quadrante.';
+      return;
+    }
+    const colossusIndex = cards.findIndex((card, index) => {
+      const name = normalize(card.name);
+      return name === query || name.startsWith(query) || query === 'colosso ' + (index + 1) || query === String(index + 1).padStart(2, '0');
+    });
+    if (colossusIndex >= 0) {
+      get('show-colossi').checked = true;
+      refresh();
+      select(colossusIndex + 1);
+      const position = markerPosition(markers[colossusIndex]);
+      focusPoint(position.x, position.y, markers[colossusIndex]);
+      get('map-search-status').textContent = cards[colossusIndex].name + ' localizado em ' + cards[colossusIndex].coord + '.';
+      return;
+    }
+    const placeIndex = places.findIndex(place => normalize(place[0]) === query || normalize(place[0]).startsWith(query));
+    if (placeIndex >= 0) {
+      get('show-places').checked = true;
+      refresh();
+      placeMarkers[placeIndex].click();
+      const position = markerPosition(placeMarkers[placeIndex]);
+      focusPoint(position.x, position.y, placeMarkers[placeIndex]);
+      get('map-search-status').textContent = places[placeIndex][0] + ' localizado em ' + places[placeIndex][1] + '.';
+      return;
+    }
+    const coord = raw.trim().toUpperCase().replace(/\s+/g, '');
+    if (/^[A-K][0-8]$/.test(coord)) {
+      const position = quadrantPosition(coord);
+      const highlight = get('quadrant-highlight');
+      highlight.style.setProperty('--x', position.x + '%');
+      highlight.style.setProperty('--y', position.y + '%');
+      highlight.hidden = false;
+      focusPoint(position.x, position.y, highlight);
+      get('map-search-status').textContent = 'Quadrante ' + coord + ' centralizado.';
+      return;
+    }
+    get('map-search-status').textContent = 'Nenhum resultado para “' + raw.trim() + '”.';
+  }
+  get('map-search-button').addEventListener('click', searchMap);
+  get('map-search').addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      searchMap();
+    }
+  });
+
+  const mapPanel = document.querySelector('.map-panel');
+  const fullscreenButton = get('map-fullscreen');
+  function setExpanded(expanded) {
+    mapPanel.classList.toggle('is-expanded', expanded);
+    document.body.classList.toggle('map-is-expanded', expanded);
+    fullscreenButton.textContent = expanded ? 'Sair da tela cheia' : 'Tela cheia';
+    fullscreenButton.setAttribute('aria-pressed', String(expanded));
+    setZoom(zoom);
+  }
+  fullscreenButton.addEventListener('click', () => setExpanded(!mapPanel.classList.contains('is-expanded')));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mapPanel.classList.contains('is-expanded')) setExpanded(false);
+  });
   window.addEventListener('resize', () => setZoom(zoom));
   setZoom(1);
   select(1, false);
