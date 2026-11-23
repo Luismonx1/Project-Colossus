@@ -90,6 +90,18 @@ h3 { font-size: 21px; font-weight: 400; line-height: 1.4; margin: 20px 0 12px; }
 .spoiler-locked .portrait figcaption { display: none; }
 .spoiler-locked .colossus-immersive { filter: brightness(.08); pointer-events: none; }
 .spoiler-locked .facts, .spoiler-locked .section-nav, .spoiler-locked .reading-grid, .spoiler-locked .curiosities, .spoiler-locked .combat, .spoiler-locked .sources { display: none; }
+.spoiler-locked { overflow: hidden; }
+.spoiler-death-screen[hidden] { display: none; }
+.spoiler-death-screen { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto; padding: 32px; isolation: isolate; background: #020303; }
+.spoiler-death-screen::before { content: ''; position: absolute; inset: 0; z-index: -2; background: var(--death-screen-image) center/contain no-repeat; filter: brightness(.6) contrast(1.15); transform: scale(1.03); }
+.spoiler-death-screen::after { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at center,#03050538 0 18%,#010202e8 72%),linear-gradient(#0008,#000c); }
+.death-screen-content { width: min(680px,100%); padding: clamp(32px,7vw,76px); border: 1px solid #414845; background: #060908b8; box-shadow: 0 28px 100px #000; text-align: center; }
+.death-screen-order { margin: 0 0 30px; color: #9ba49b; font: 11px/1.5 Arial,sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+.death-screen-content h1 { margin: 0 0 20px; font-size: clamp(38px,7vw,68px); letter-spacing: .02em; text-shadow: 0 3px 18px #000; }
+.death-screen-content > p:not(.death-screen-order) { margin: 0 auto 36px; max-width: 440px; color: #b7bdb7; font: 15px/1.8 Arial,sans-serif; }
+.death-screen-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.death-screen-actions a, .death-screen-actions button { min-height: 46px; padding: 13px 18px; border: 1px solid #737d75; background: #111714; color: var(--text); font: 13px/1.4 Arial,sans-serif; cursor: pointer; }
+.death-screen-actions a:hover, .death-screen-actions button:hover { border-color: var(--accent); background: #202a24; }
 .is-zoomable { cursor: zoom-in; transition: transform .3s ease, filter .3s ease; }
 .portrait:hover .is-zoomable { transform: scale(1.025); filter: brightness(1.05); }
 .lightbox-open { overflow: hidden; }
@@ -113,6 +125,9 @@ footer p { font: 12px/1.8 Arial, sans-serif; color: var(--muted); }
     .nav-links { width: 100%; gap: 10px; overflow-x: auto; font-size: 14px; padding-bottom: 4px; }
     .nav-links > * { flex: 0 0 auto; min-height: 44px; display: inline-flex; align-items: center; }
     .navbar > .spoiler-toggle { width: 100%; justify-content: center; }
+    .spoiler-death-screen { padding: 16px; }
+    .death-screen-content { padding: 34px 20px; }
+    .death-screen-actions { display: grid; }
     .colossus-intro, .reading-grid, .combat, .curiosity-grid { grid-template-columns: 1fr; }
     .portrait { aspect-ratio: 1; min-height: 0; }
     .intro-copy { padding: 28px 24px; }

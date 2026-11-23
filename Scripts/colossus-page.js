@@ -7,6 +7,9 @@
         'Basaran', 'Dirge', 'Celosia', 'Pelagia', 'Phalanx', 'Cenobia', 'Argus', 'Malus'];
     const progressKey = 'colossus-atlas-progress-v1';
     const spoilerKey = 'colossus-spoiler-mode-v1';
+    const deathScreenFiles = ['01-valus.jpg', '02-quadratus.jpg', '03-gaius.jpg', '04-phaedra.jpg',
+        '05-avion.jpg', '06-barba.jpg', '07-hydrus.jpg', '08-kuromori.jpg', '09-basaran.jpg', '10-dirge.jpg',
+        '11-celosia.jpg', '12-pelagia.jpg', '13-phalanx.jpg', '14-cenobia.jpg', '15-argus.jpg', '16-malus.jpg'];
     const pageEnd = document.querySelector('.page-end');
     const locationLink = document.querySelector('.location a[href="mapa.html"]');
 
@@ -40,16 +43,42 @@
     lockMessage.className = 'spoiler-lock-message';
     lockMessage.innerHTML = '<p class="eyebrow">Conteúdo protegido</p><h1>Colosso desconhecido</h1><p>Derrote este colosso ou desative o modo sem spoilers para revelar sua ficha.</p><button type="button" class="outline-link">Revelar ficha</button>';
     document.querySelector('.intro-copy').append(lockMessage);
+    const portrait = document.querySelector('.portrait img');
+    const deathScreen = document.createElement('section');
+    deathScreen.className = 'spoiler-death-screen';
+    deathScreen.hidden = true;
+    deathScreen.setAttribute('role', 'dialog');
+    deathScreen.setAttribute('aria-modal', 'true');
+    deathScreen.setAttribute('aria-labelledby', 'death-screen-title');
+    deathScreen.style.setProperty('--death-screen-image', `url("../Images/Colossos/DeathScreens/${deathScreenFiles[number - 1]}")`);
+    deathScreen.innerHTML = `
+        <div class="death-screen-content">
+            <p class="death-screen-order">Acesso protegido · Colosso ${String(number).padStart(2, '0')}</p>
+            <h1 id="death-screen-title">Colosso não derrotado</h1>
+            <p>Esta tela permanecerá oculta até que a vitória seja registrada no mapa.</p>
+            <div class="death-screen-actions">
+                <a href="HomePage.html#colossos">Voltar à galeria</a>
+                <button type="button">Desativar modo sem spoilers</button>
+            </div>
+        </div>`;
+    document.body.append(deathScreen);
+    const deathScreenBackground = [...document.body.children].filter(element => element !== deathScreen);
     const originalTitle = document.title;
 
     function applySpoilerMode() {
         const locked = spoilerMode && !completed.has(number);
         document.body.classList.toggle('spoiler-mode', spoilerMode);
         document.body.classList.toggle('spoiler-locked', locked);
+        deathScreen.hidden = !locked;
+        deathScreenBackground.forEach(element => {
+            element.inert = locked;
+            element.toggleAttribute('aria-hidden', locked);
+        });
         spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
         spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
         spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
         document.title = locked ? `Colosso ${String(number).padStart(2, '0')} | Project Colossus` : originalTitle;
+        if (locked) deathScreen.querySelector('a').focus({ preventScroll: true });
     }
 
     function setSpoilerMode(enabled) {
@@ -60,9 +89,9 @@
 
     spoilerToggle.addEventListener('click', () => setSpoilerMode(!spoilerMode));
     lockMessage.querySelector('button').addEventListener('click', () => setSpoilerMode(false));
+    deathScreen.querySelector('button').addEventListener('click', () => setSpoilerMode(false));
     applySpoilerMode();
 
-    const portrait = document.querySelector('.portrait img');
     const portraitCaption = document.querySelector('.portrait figcaption')?.textContent.trim() || '';
     const immersive = document.querySelector('.colossus-immersive');
     const galleryItems = [

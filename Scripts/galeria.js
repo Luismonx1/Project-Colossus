@@ -9,6 +9,10 @@
     let current = 0;
     const progressKey = 'colossus-atlas-progress-v1';
     const spoilerKey = 'colossus-spoiler-mode-v1';
+    const deathScreens = ['01-valus.jpg', '02-quadratus.jpg', '03-gaius.jpg', '04-phaedra.jpg',
+        '05-avion.jpg', '06-barba.jpg', '07-hydrus.jpg', '08-kuromori.jpg', '09-basaran.jpg', '10-dirge.jpg',
+        '11-celosia.jpg', '12-pelagia.jpg', '13-phalanx.jpg', '14-cenobia.jpg', '15-argus.jpg', '16-malus.jpg']
+        .map(file => `../Images/Colossos/DeathScreens/${file}`);
     let completed = new Set();
     let spoilerMode = false;
     try {
@@ -58,7 +62,7 @@
         const number = String(current + 1).padStart(2, '0');
         const locked = spoilerMode && !completed.has(current + 1);
         document.querySelector('.colossus-feature').classList.toggle('is-spoiler-locked', locked);
-        image.src = choice.dataset.image;
+        image.src = locked ? deathScreens[current] : choice.dataset.image;
         image.alt = locked ? `Colosso ${current + 1} ainda desconhecido` : `${choice.dataset.name}, colosso ${current + 1}`;
         name.textContent = locked ? 'Colosso desconhecido' : choice.dataset.name;
         quote.textContent = locked ? 'Derrote este colosso para revelar sua identidade e história.' : choice.dataset.description.split('\\n')[0].trim();
@@ -77,6 +81,7 @@
     }
 
     choices.forEach((choice, index) => {
+        choice.querySelector('img').dataset.originalSrc = choice.querySelector('img').getAttribute('src');
         // Without JavaScript these remain usable links to the colossus pages.
         choice.setAttribute('role', 'button');
         choice.setAttribute('aria-controls', 'featured-name featured-image featured-quote featured-link');
@@ -98,6 +103,8 @@
         choices.forEach((choice, index) => {
             const locked = spoilerMode && !completed.has(index + 1);
             choice.classList.toggle('is-spoiler-locked', locked);
+            const thumb = choice.querySelector('img');
+            thumb.src = locked ? deathScreens[index] : thumb.dataset.originalSrc;
             choice.setAttribute('aria-label', locked ? `Selecionar colosso desconhecido ${index + 1}` : `Selecionar ${choice.dataset.name}, colosso ${index + 1}`);
         });
         spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
