@@ -26,9 +26,9 @@
 #detail-credit,.atlas-note,#save-status{font:11px/1.7 Arial,sans-serif;color:var(--muted)}
 .atlas-button{display:block;border:1px solid var(--accent);padding:14px;text-align:center;margin:20px 0}
 .atlas-filters{display:flex;flex-wrap:wrap;gap:16px;padding:18px 24px;border-bottom:1px solid var(--line)}
-.atlas-filters label,#completion-control{font:13px/1.6 Arial,sans-serif;cursor:pointer}
+.atlas-filters label,#completion-control,#collectible-completion-control{font:13px/1.6 Arial,sans-serif;cursor:pointer}
 input[type=checkbox]{accent-color:#bfcca3;width:18px;height:18px;vertical-align:middle;margin-right:8px}
-#completion-control{display:block;padding:10px 0}
+#completion-control,#collectible-completion-control{display:block;padding:10px 0}
 .place-marker{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);width:44px;height:44px;color:#fff;background:#1d4ed8;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1px #10234d,0 2px 4px #0009;font-size:28px;cursor:pointer;z-index:2}
 .marker.is-complete path{fill:#558b76}
 .marker[aria-pressed=true]{z-index:5}
@@ -56,10 +56,14 @@ progress{display:block;width:100%;height:14px;margin:16px 0;accent-color:#b5c69b
 @media(max-width:1050px){.atlas-layout{grid-template-columns:minmax(0,1fr)}.atlas-detail{position:static;display:block}.atlas-detail img{max-width:480px}.encounter-list{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.travel-grid,.region-grid{grid-template-columns:1fr}.atlas-filters{padding:16px}.atlas-section{padding:32px 0}.encounter-list a{padding:12px}.atlas-detail{padding:22px}.map-count{white-space:nowrap}}
 .collectibles-help{margin:0;padding:0 24px 18px;color:var(--muted);font:12px/1.7 Arial,sans-serif}
+.collectible-progress{display:grid;grid-template-columns:auto minmax(120px,1fr);align-items:center;gap:18px;padding:14px 24px 10px;color:var(--muted);font:12px/1.5 Arial,sans-serif}
+.collectible-progress progress{width:100%;height:7px;accent-color:#d6cc9f}
 .collectible-marker{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:grid;place-items:center;width:38px;height:38px;padding:0;border:2px solid currentColor;border-radius:50%;background:#15201bed;box-shadow:0 2px 5px #0008;cursor:pointer;font:24px/1 Georgia,serif;z-index:3}
 .collectible-coins,.legend-coins{color:#f3ce65}.collectible-fruits,.legend-fruits{color:#a6dc83}.collectible-lizards,.legend-lizards{color:#9cd9f1}
 .collectible-fruits{border-radius:9px}.collectible-lizards{border-radius:12px 2px}
 .collectible-marker:hover,.collectible-marker[aria-pressed=true]{background:#36453c;outline:2px solid #fff;outline-offset:2px;z-index:4}
+.collectible-marker.is-collected{background:#285844;color:#d7f4df;opacity:.72}
+.collectible-marker.is-collected::after{content:"✓";position:absolute;inset:-6px -6px auto auto;display:grid;place-items:center;width:10px;height:10px;border-radius:50%;background:#f4ecd4;color:#173528;font:700 8px/1 Arial,sans-serif;box-shadow:0 1px 2px #0009}
 #collectible-links{display:grid;gap:10px;margin-top:18px}#collectible-links a{padding:10px;border:1px solid var(--line);color:#f3ce65;font:13px/1.5 Arial,sans-serif}
 .map-count{white-space:normal}
 .map-canvas{max-width:none;margin:0;min-width:825px}
@@ -78,3 +82,4 @@ progress{display:block;width:100%;height:14px;margin:16px 0;accent-color:#b5c69b
 .marker{width:24px;height:28px}.marker svg{width:12px;height:17px}
 .place-marker{display:grid;place-items:center;width:18px;height:18px;padding:0;line-height:1;border-width:1px}
 .place-marker svg{display:block;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5}
+@media(max-width:520px){.collectible-progress{grid-template-columns:1fr;gap:7px}}

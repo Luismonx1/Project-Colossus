@@ -1,4 +1,4 @@
-// Pontos digitalizados dos mapas do Portal E7. IDs locais, não a ordem do vídeo.
+// Pontos digitalizados dos mapas do Portal E7. As moedas recebem número e tempo do vídeo em mapa.js.
 // Coordenadas percentuais no enquadramento de 1600 × 900; ver docs/MAP-COLLECTIBLES.md.
 window.colossusCollectibles = [
   {"type": "coins", "id": 1, "x": 52.3937, "y": 2.8333, "coord": "F1"},

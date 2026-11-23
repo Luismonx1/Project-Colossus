@@ -5,13 +5,38 @@
   const placeMarkers = [...document.querySelectorAll('.place-marker')];
   const entries = [...document.querySelectorAll('[data-encounter]')];
   const collectibles = window.colossusCollectibles || [];
+  const coinGuide = window.colossusCoinGuide || [];
   const collectibleMarkers = [];
   const labels = { coins: 'Moedas', fruits: 'Frutas', lizards: 'Lagartos de cauda branca', shrines: 'Mini templo' };
   const key = 'colossus-atlas-progress-v1';
-  let completed = new Set(), current = 1;
+  const collectibleKey = 'colossus-atlas-collectibles-v1';
+  const collectibleId = item => item.type + ':' + item.id;
+  const isTrackable = item => item.type !== 'shrines';
+  let completed = new Set(), collected = new Set(), current = 1, currentCollectible = null;
+  const coinCoordinateCorrections = { 1: 'F0', 8: 'G1', 31: 'C4' };
+  collectibles.filter(item => item.type === 'coins').forEach(item => {
+    if (coinCoordinateCorrections[item.id]) item.coord = coinCoordinateCorrections[item.id];
+  });
+  const groupByCoord = items => items.reduce((groups, item) => {
+    (groups[item.coord] ||= []).push(item);
+    return groups;
+  }, {});
+  const coinsByCoord = groupByCoord(collectibles.filter(item => item.type === 'coins'));
+  const guideByCoord = groupByCoord(coinGuide);
+  Object.keys(guideByCoord).forEach(coord => {
+    const points = (coinsByCoord[coord] || []).sort((a, b) => a.y - b.y || a.x - b.x);
+    const guide = guideByCoord[coord].sort((a, b) => a.number - b.number);
+    if (points.length !== guide.length) console.warn('Quantidade de moedas divergente em ' + coord);
+    points.forEach(point => {
+      point.videoOptions = guide;
+      if (guide.length === 1) Object.assign(point, { number: guide[0].number, time: guide[0].time });
+    });
+  });
   try {
     const saved = JSON.parse(localStorage.getItem(key) || '[]');
     if (Array.isArray(saved)) completed = new Set(saved.filter(n => Number.isInteger(n) && n >= 1 && n <= 16));
+    const savedCollectibles = JSON.parse(localStorage.getItem(collectibleKey) || '[]');
+    if (Array.isArray(savedCollectibles)) collected = new Set(savedCollectibles.filter(id => typeof id === 'string'));
   } catch { get('save-status').textContent = 'O progresso está disponível nesta visita; o armazenamento do navegador não pôde ser lido.'; }
   document.querySelector('.atlas-filters').hidden = false;
   document.querySelector('.journey-progress').hidden = false;
@@ -28,7 +53,11 @@
     placeMarkers.forEach(marker => { marker.hidden = !get('show-places').checked; });
     let regions = 0;
     collectibleMarkers.forEach((marker, i) => {
-      marker.hidden = !get('show-' + collectibles[i].type).checked;
+      const item = collectibles[i];
+      const found = collected.has(collectibleId(item));
+      marker.hidden = !get('show-' + item.type).checked || (get('hide-completed-collectibles').checked && found);
+      marker.classList.toggle('is-collected', found);
+      marker.setAttribute('aria-label', marker.title + (found ? ', encontrado' : ', não encontrado'));
       if (!marker.hidden) regions++;
     });
     entries.forEach((entry, i) => {
@@ -39,12 +68,16 @@
     get('empty-filter').hidden = !(pending && completed.size === 16);
     get('progress-label').textContent = completed.size + ' de 16 colossos derrotados';
     get('journey-progress').value = completed.size;
+    const foundCount = collectibles.filter(item => isTrackable(item) && collected.has(collectibleId(item))).length;
+    get('collectible-progress-label').textContent = foundCount + ' de 176 colecionáveis encontrados';
+    get('collectible-progress').value = foundCount;
     document.querySelector('.map-count').textContent = visible + ' colossos · ' + regions + ' pontos visíveis';
   }
   function select(number, announce = true) {
     get('collectible-links').hidden = true;
     collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     current = number;
+    currentCollectible = null;
     const card = cards[number - 1];
     get('detail-number').textContent = 'Colosso ' + String(number).padStart(2, '0') + ' · ' + card.coord;
     get('detail-name').textContent = card.name;
@@ -57,6 +90,7 @@
     get('detail-link').hidden = false;
     get('detail-link').textContent = 'Abrir ficha ↗';
     get('completion-control').hidden = false;
+    get('collectible-completion-control').hidden = true;
     get('mark-complete').checked = completed.has(number);
     [...markers, ...placeMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === markers[number - 1])));
     if (announce) get('selection-status').textContent = card.name + ' selecionado. Ficha atualizada.';
@@ -67,6 +101,7 @@
     collectibleMarkers.forEach(m => m.setAttribute('aria-pressed', 'false'));
     const place = places[i];
     current = null;
+    currentCollectible = null;
     get('detail-number').textContent = 'Ponto de interesse · ' + place[1];
     get('detail-name').textContent = place[0];
     get('detail-description').textContent = place[4];
@@ -75,6 +110,7 @@
     get('detail-image').hidden = false;
     get('detail-credit').hidden = true;
     get('completion-control').hidden = true;
+    get('collectible-completion-control').hidden = true;
     get('detail-link').hidden = true;
     [...markers, ...placeMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
     get('selection-status').textContent = place[0] + ' selecionado.';
@@ -86,6 +122,15 @@
     catch { get('save-status').textContent = 'Não foi possível salvar neste navegador. O progresso será mantido apenas durante esta visita.'; }
     refresh();
   });
+  get('mark-collectible').addEventListener('change', () => {
+    if (!currentCollectible || !isTrackable(currentCollectible)) return;
+    const id = collectibleId(currentCollectible);
+    if (get('mark-collectible').checked) collected.add(id); else collected.delete(id);
+    try { localStorage.setItem(collectibleKey, JSON.stringify([...collected])); }
+    catch { get('save-status').textContent = 'Não foi possível salvar neste navegador. O progresso será mantido apenas durante esta visita.'; }
+    get('selection-status').textContent = labels[currentCollectible.type] + (get('mark-collectible').checked ? ' marcado como encontrado.' : ' marcado como não encontrado.');
+    refresh();
+  });
   collectibles.forEach(group => {
     const marker = document.createElement('button');
     marker.type = 'button';
@@ -93,22 +138,28 @@
     marker.style.setProperty('--x', group.x + '%');
     marker.style.setProperty('--y', group.y + '%');
     marker.textContent = { coins: '◉', fruits: '♣', lizards: '∿', shrines: '⌂' }[group.type];
-    marker.title = labels[group.type] + ' ' + group.id + ' · ' + group.coord;
-    marker.setAttribute('aria-label', labels[group.type] + ' ' + group.id + ', quadrante ' + group.coord);
+    marker.title = group.type === 'coins' ? 'Moeda · ' + group.coord : labels[group.type] + ' ' + group.id + ' · ' + group.coord;
+    marker.setAttribute('aria-label', group.type === 'coins' ? 'Moeda, quadrante ' + group.coord : labels[group.type] + ' ' + group.id + ', quadrante ' + group.coord);
     marker.setAttribute('aria-controls', 'atlas-detail');
     marker.setAttribute('aria-describedby', 'collectibles-help');
     marker.setAttribute('aria-pressed', 'false');
     marker.hidden = true;
     marker.addEventListener('click', () => {
       current = null;
+      currentCollectible = group;
       [...markers, ...placeMarkers, ...collectibleMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
-      get('detail-number').textContent = 'Ponto ' + String(group.id).padStart(2, '0') + ' · ' + group.coord;
+      get('detail-number').textContent = group.type === 'coins' ? 'Moeda · ' + group.coord : 'Ponto ' + String(group.id).padStart(2, '0') + ' · ' + group.coord;
       get('detail-name').textContent = labels[group.type];
       get('detail-image').hidden = true;
       get('detail-credit').hidden = true;
       get('completion-control').hidden = true;
+      get('collectible-completion-control').hidden = !isTrackable(group);
+      get('mark-collectible').checked = collected.has(collectibleId(group));
+      get('collectible-completion-label').textContent = group.type === 'coins' ? 'Moeda encontrada' : group.type === 'fruits' ? 'Árvore encontrada' : 'Lagarto encontrado';
       const descriptions = {
-        coins: 'Moeda dourada do remake de PS4. O ponto corresponde ao marcador do mapa de referência; a altura e o caminho de acesso devem ser conferidos no guia.',
+        coins: (group.videoOptions?.length || 1) === 1
+          ? 'Moeda dourada do remake de PS4. O vídeo abaixo abre diretamente no momento desta coleta.'
+          : 'Este quadrante possui ' + group.videoOptions.length + ' moedas. Como o mapa de referência não numera os pontos dentro do quadrante, os momentos corretos de todas elas aparecem abaixo.',
         fruits: 'Ponto de árvore frutífera indicado no mapa de referência. Uma árvore pode conter várias frutas.',
         lizards: 'Ponto de lagarto de cauda branca indicado no mapa de referência. Procure nas pedras e estruturas próximas; o animal pode se mover.',
         shrines: 'Mini templo de oração indicado no mapa de referência. O Santuário da Adoração aparece separadamente no filtro Locais.'
@@ -118,13 +169,23 @@
       get('detail-link').hidden = false;
       get('detail-link').textContent = 'Consultar mapa de referência ↗';
       get('collectible-links').replaceChildren();
-      get('collectible-links').hidden = true;
+      (group.videoOptions || []).forEach(info => {
+        const video = document.createElement('a');
+        const minutes = Math.floor(info.time / 60);
+        const seconds = String(info.time % 60).padStart(2, '0');
+        video.href = 'https://youtu.be/awFlJLIUCgw?t=' + info.time;
+        video.target = '_blank';
+        video.rel = 'noopener noreferrer';
+        video.textContent = 'Moeda ' + String(info.number).padStart(2, '0') + ' · ' + minutes + ':' + seconds + ' ↗';
+        get('collectible-links').append(video);
+      });
+      get('collectible-links').hidden = group.type !== 'coins';
       get('selection-status').textContent = labels[group.type] + ' em ' + group.coord + '. Guia atualizado.';
     });
     collectibleMarkers.push(marker);
     get('map').append(marker);
   });
-  ['show-colossi', 'show-places', 'only-pending', 'show-coins', 'show-fruits', 'show-lizards', 'show-shrines'].forEach(id => get(id).addEventListener('change', refresh));
+  ['show-colossi', 'show-places', 'only-pending', 'show-coins', 'show-fruits', 'show-lizards', 'show-shrines', 'hide-completed-collectibles'].forEach(id => get(id).addEventListener('change', refresh));
   let zoom = 1;
   const viewport = get('map').parentElement;
   let drag = null, suppressClick = false;
