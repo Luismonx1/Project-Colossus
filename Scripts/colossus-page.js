@@ -11,6 +11,7 @@
         '05-avion.jpg', '06-barba.jpg', '07-hydrus.jpg', '08-kuromori.jpg', '09-basaran.jpg', '10-dirge.jpg',
         '11-celosia.jpg', '12-pelagia.jpg', '13-phalanx.jpg', '14-cenobia.jpg', '15-argus.jpg', '16-malus.jpg'];
     const pageEnd = document.querySelector('.page-end');
+    const facts = document.querySelector('.facts');
     const locationLink = document.querySelector('.location a[href="mapa.html"]');
 
     const route = document.createElement('nav');
@@ -58,7 +59,8 @@
             <p>Esta tela permanecerá oculta até que a vitória seja registrada no mapa.</p>
             <div class="death-screen-actions">
                 <a href="HomePage.html#colossos">Voltar à galeria</a>
-                <button type="button">Desativar modo sem spoilers</button>
+                <button type="button" data-action="complete">Registrar vitória</button>
+                <button type="button" data-action="reveal">Desativar modo sem spoilers</button>
             </div>
         </div>`;
     document.body.append(deathScreen);
@@ -87,9 +89,40 @@
         applySpoilerMode();
     }
 
+    const progressControl = document.createElement('section');
+    progressControl.className = 'colossus-progress-control';
+    progressControl.setAttribute('aria-label', 'Progresso deste encontro');
+    progressControl.innerHTML = '<div><span class="progress-status-dot" aria-hidden="true"></span><p><small>Diário de jornada</small><strong></strong></p></div><button type="button"></button>';
+    facts.after(progressControl);
+    const progressStatus = progressControl.querySelector('strong');
+    const progressButton = progressControl.querySelector('button');
+
+    function saveProgress() {
+        try { localStorage.setItem(progressKey, JSON.stringify([...completed].sort((a, b) => a - b))); } catch { /* Keep it for this visit. */ }
+    }
+
+    function renderProgress() {
+        const isComplete = completed.has(number);
+        progressControl.classList.toggle('is-complete', isComplete);
+        progressStatus.textContent = isComplete ? 'Colosso derrotado' : 'Encontro pendente';
+        progressButton.textContent = isComplete ? 'Marcar como pendente' : 'Marcar como derrotado';
+        progressButton.setAttribute('aria-pressed', String(isComplete));
+    }
+
+    function setCompleted(isComplete) {
+        if (isComplete) completed.add(number); else completed.delete(number);
+        saveProgress();
+        renderProgress();
+        applySpoilerMode();
+    }
+
+    progressButton.addEventListener('click', () => setCompleted(!completed.has(number)));
+
     spoilerToggle.addEventListener('click', () => setSpoilerMode(!spoilerMode));
     lockMessage.querySelector('button').addEventListener('click', () => setSpoilerMode(false));
-    deathScreen.querySelector('button').addEventListener('click', () => setSpoilerMode(false));
+    deathScreen.querySelector('[data-action="complete"]').addEventListener('click', () => setCompleted(true));
+    deathScreen.querySelector('[data-action="reveal"]').addEventListener('click', () => setSpoilerMode(false));
+    renderProgress();
     applySpoilerMode();
 
     const portraitCaption = document.querySelector('.portrait figcaption')?.textContent.trim() || '';

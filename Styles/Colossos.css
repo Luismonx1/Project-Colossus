@@ -35,6 +35,15 @@ dd { margin: 6px 0 0; font-size: 18px; }
 .facts > div:last-child { border: 0; }
 .facts dd { font-size: 28px; }
 .facts dd span { font-size: 13px; color: var(--muted); }
+.colossus-progress-control { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 20px; border: 1px solid var(--line); border-top: 0; background: #111714; }
+.colossus-progress-control > div { display: flex; align-items: center; gap: 13px; }
+.colossus-progress-control p { display: grid; gap: 3px; margin: 0; }
+.colossus-progress-control small { color: var(--muted); font: 10px/1.3 Arial,sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.colossus-progress-control strong { font-size: 16px; font-weight: 400; }
+.progress-status-dot { width: 11px; height: 11px; border: 1px solid var(--accent); border-radius: 50%; }
+.colossus-progress-control.is-complete .progress-status-dot { background: #8fbc9d; box-shadow: 0 0 0 4px #8fbc9d1c; }
+.colossus-progress-control button { min-height: 44px; padding: 10px 15px; border: 1px solid var(--line); background: var(--panel); color: var(--text); cursor: pointer; }
+.colossus-progress-control button:hover { border-color: var(--accent); }
 .section-nav { display: flex; flex-wrap: wrap; gap: 12px 30px; padding: 24px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--accent); }
 .section-nav a { padding: 8px 0; }
 .section-nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
@@ -137,6 +146,7 @@ footer p { font: 12px/1.8 Arial, sans-serif; color: var(--muted); }
     .facts > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .facts dd span { display: block; line-height: 1.6; }
     .facts dd { font-size: clamp(22px, 6.6vw, 28px); }
+    .colossus-progress-control { align-items: stretch; flex-direction: column; }
     .section-nav { flex-wrap: nowrap; gap: 8px 22px; overflow-x: auto; }
     .section-nav a { flex: 0 0 auto; min-height: 44px; display: inline-flex; align-items: center; }
     .reading-grid, .combat { gap: 0; }

@@ -119,4 +119,13 @@
     });
     select(0, false);
     applySpoilerMode();
+    function refreshProgress() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            completed = new Set(Array.isArray(saved) ? saved.filter(Number.isInteger) : []);
+        } catch { completed = new Set(); }
+        applySpoilerMode();
+    }
+    window.addEventListener('pageshow', refreshProgress);
+    window.addEventListener('storage', event => { if (event.key === progressKey) refreshProgress(); });
 })();
