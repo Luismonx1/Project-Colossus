@@ -7,6 +7,20 @@
     const link = document.getElementById('featured-link');
     const status = document.getElementById('gallery-status');
     let current = 0;
+    const progressKey = 'colossus-atlas-progress-v1';
+    const spoilerKey = 'colossus-spoiler-mode-v1';
+    let completed = new Set();
+    let spoilerMode = false;
+    try {
+        const saved = JSON.parse(localStorage.getItem(progressKey) || '[]');
+        if (Array.isArray(saved)) completed = new Set(saved.filter(Number.isInteger));
+        spoilerMode = localStorage.getItem(spoilerKey) === 'on';
+    } catch { /* The gallery remains usable without browser storage. */ }
+
+    const spoilerToggle = document.createElement('button');
+    spoilerToggle.type = 'button';
+    spoilerToggle.className = 'spoiler-toggle';
+    document.querySelector('.navbar').append(spoilerToggle);
     const sound = document.getElementById('gallery-sound');
     const soundToggle = document.getElementById('sound-toggle');
     const soundPreferenceKey = 'colossus-gallery-sound';
@@ -42,10 +56,12 @@
         current = next;
         const choice = choices[current];
         const number = String(current + 1).padStart(2, '0');
+        const locked = spoilerMode && !completed.has(current + 1);
+        document.querySelector('.colossus-feature').classList.toggle('is-spoiler-locked', locked);
         image.src = choice.dataset.image;
-        image.alt = `${choice.dataset.name}, colosso ${current + 1}`;
-        name.textContent = choice.dataset.name;
-        quote.textContent = choice.dataset.description.split('\\n')[0].trim();
+        image.alt = locked ? `Colosso ${current + 1} ainda desconhecido` : `${choice.dataset.name}, colosso ${current + 1}`;
+        name.textContent = locked ? 'Colosso desconhecido' : choice.dataset.name;
+        quote.textContent = locked ? 'Derrote este colosso para revelar sua identidade e história.' : choice.dataset.description.split('\\n')[0].trim();
         link.href = choice.href;
         document.getElementById('featured-number').textContent = `Colosso ${number}`;
         document.getElementById('art-number').textContent = number;
@@ -53,7 +69,7 @@
         choices.forEach((item, i) => item.setAttribute('aria-pressed', String(i === current)));
         if (announce) {
             if (changed) playSelectionSound();
-            status.textContent = `${choice.dataset.name}, colosso ${current + 1} de ${choices.length}`;
+            status.textContent = locked ? `Colosso desconhecido, ${current + 1} de ${choices.length}` : `${choice.dataset.name}, colosso ${current + 1} de ${choices.length}`;
             // Scroll only the miniature strip; keep the page and keyboard focus stable.
             selector.scrollTo({ left: choice.offsetLeft - (selector.clientWidth - choice.offsetWidth) / 2,
                 behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
@@ -78,5 +94,22 @@
     document.getElementById('previous-colossus').addEventListener('click', () => select(current - 1));
     document.getElementById('next-colossus').addEventListener('click', () => select(current + 1));
     document.querySelector('.gallery-navigation').hidden = false;
+    function applySpoilerMode() {
+        choices.forEach((choice, index) => {
+            const locked = spoilerMode && !completed.has(index + 1);
+            choice.classList.toggle('is-spoiler-locked', locked);
+            choice.setAttribute('aria-label', locked ? `Selecionar colosso desconhecido ${index + 1}` : `Selecionar ${choice.dataset.name}, colosso ${index + 1}`);
+        });
+        spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
+        spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
+        spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
+        select(current, false);
+    }
+    spoilerToggle.addEventListener('click', () => {
+        spoilerMode = !spoilerMode;
+        try { localStorage.setItem(spoilerKey, spoilerMode ? 'on' : 'off'); } catch { /* Keep it for this visit. */ }
+        applySpoilerMode();
+    });
     select(0, false);
+    applySpoilerMode();
 })();

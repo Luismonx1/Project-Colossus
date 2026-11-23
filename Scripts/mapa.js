@@ -363,4 +363,9 @@
   setZoom(1);
   select(1, false);
   refresh();
+  const requestedColossus = Number(new URLSearchParams(location.search).get('colosso'));
+  if (Number.isInteger(requestedColossus) && requestedColossus >= 1 && requestedColossus <= cards.length) {
+    get('map-search').value = cards[requestedColossus - 1].name;
+    searchMap();
+  }
 })();
