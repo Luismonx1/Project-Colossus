@@ -10,9 +10,13 @@
   const labels = { coins: 'Moedas', fruits: 'Frutas', lizards: 'Lagartos de cauda branca', shrines: 'Mini templo' };
   const key = 'colossus-atlas-progress-v1';
   const collectibleKey = 'colossus-atlas-collectibles-v1';
+  const spoilerKey = 'colossus-spoiler-mode-v1';
   const collectibleId = item => item.type + ':' + item.id;
   const isTrackable = item => item.type !== 'shrines';
-  let completed = new Set(), collected = new Set(), current = 1, currentCollectible = null;
+  let completed = new Set(), collected = new Set(), current = 1, currentCollectible = null, spoilerMode = false;
+  entries.forEach(entry => { entry.dataset.revealedHtml = entry.innerHTML; });
+  const isLocked = number => spoilerMode && !completed.has(number);
+  const displayName = number => isLocked(number) ? 'Colosso não revelado' : cards[number - 1].name;
   const coinCoordinateCorrections = { 1: 'F0', 8: 'G1', 31: 'C4' };
   collectibles.filter(item => item.type === 'coins').forEach(item => {
     if (coinCoordinateCorrections[item.id]) item.coord = coinCoordinateCorrections[item.id];
@@ -37,9 +41,19 @@
     if (Array.isArray(saved)) completed = new Set(saved.filter(n => Number.isInteger(n) && n >= 1 && n <= 16));
     const savedCollectibles = JSON.parse(localStorage.getItem(collectibleKey) || '[]');
     if (Array.isArray(savedCollectibles)) collected = new Set(savedCollectibles.filter(id => typeof id === 'string'));
+    spoilerMode = localStorage.getItem(spoilerKey) === 'on';
   } catch { get('save-status').textContent = 'O progresso está disponível nesta visita; o armazenamento do navegador não pôde ser lido.'; }
   document.querySelector('.atlas-filters').hidden = false;
   document.querySelector('.journey-progress').hidden = false;
+  const spoilerToggle = document.createElement('button');
+  spoilerToggle.type = 'button';
+  spoilerToggle.className = 'spoiler-toggle map-spoiler-toggle';
+  document.querySelector('.navbar').append(spoilerToggle);
+  function renderSpoilerToggle() {
+    spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
+    spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
+    spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
+  }
   function refresh() {
     const pending = get('only-pending').checked;
     let visible = 0;
@@ -47,7 +61,7 @@
       const done = completed.has(i + 1);
       marker.hidden = !get('show-colossi').checked || (pending && done);
       marker.classList.toggle('is-complete', done);
-      marker.setAttribute('aria-label', cards[i].name + ', quadrante ' + cards[i].coord + (done ? ', derrotado' : ', pendente'));
+      marker.setAttribute('aria-label', displayName(i + 1) + ', quadrante ' + cards[i].coord + (done ? ', derrotado' : ', pendente'));
       if (!marker.hidden) visible++;
     });
     placeMarkers.forEach(marker => { marker.hidden = !get('show-places').checked; });
@@ -63,7 +77,8 @@
     entries.forEach((entry, i) => {
       entry.hidden = pending && completed.has(i + 1);
       entry.classList.toggle('is-complete', completed.has(i + 1));
-      entry.setAttribute('aria-label', cards[i].name + (completed.has(i + 1) ? ', derrotado, abrir ficha' : ', pendente, abrir ficha'));
+      entry.innerHTML = isLocked(i + 1) ? `<span>${String(i + 1).padStart(2, '0')}</span> Não revelado <small>${cards[i].coord}</small>` : entry.dataset.revealedHtml;
+      entry.setAttribute('aria-label', displayName(i + 1) + (completed.has(i + 1) ? ', derrotado, abrir ficha' : ', pendente, abrir ficha'));
     });
     get('empty-filter').hidden = !(pending && completed.size === 16);
     get('progress-label').textContent = completed.size + ' de 16 colossos derrotados';
@@ -80,13 +95,14 @@
     current = number;
     currentCollectible = null;
     const card = cards[number - 1];
+    const locked = isLocked(number);
     get('detail-number').textContent = 'Colosso ' + String(number).padStart(2, '0') + ' · ' + card.coord;
-    get('detail-name').textContent = card.name;
-    get('detail-description').textContent = card.desc;
-    get('detail-image').src = card.img;
-    get('detail-image').alt = 'Interpretação artística de ' + card.name;
-    get('detail-image').hidden = false;
-    get('detail-credit').hidden = false;
+    get('detail-name').textContent = displayName(number);
+    get('detail-description').textContent = locked ? 'Derrote este colosso ou desative o modo sem spoilers para revelar sua ficha.' : card.desc;
+    if (!locked) get('detail-image').src = card.img;
+    get('detail-image').alt = locked ? '' : 'Interpretação artística de ' + card.name;
+    get('detail-image').hidden = locked;
+    get('detail-credit').hidden = locked;
     get('detail-link').href = 'Colosso' + number + '.html';
     get('detail-link').hidden = false;
     get('detail-link').textContent = 'Abrir ficha ↗';
@@ -94,7 +110,7 @@
     get('collectible-completion-control').hidden = true;
     get('mark-complete').checked = completed.has(number);
     [...markers, ...placeMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === markers[number - 1])));
-    if (announce) get('selection-status').textContent = card.name + ' selecionado. Ficha atualizada.';
+    if (announce) get('selection-status').textContent = displayName(number) + ' selecionado. Ficha atualizada.';
   }
   markers.forEach((marker, i) => marker.addEventListener('click', () => select(i + 1)));
   placeMarkers.forEach((marker, i) => marker.addEventListener('click', () => {
@@ -123,6 +139,15 @@
     try { localStorage.setItem(key, JSON.stringify([...completed])); }
     catch { get('save-status').textContent = 'Não foi possível salvar neste navegador. O progresso será mantido apenas durante esta visita.'; }
     refresh();
+    select(current, false);
+  });
+  spoilerToggle.addEventListener('click', () => {
+    spoilerMode = !spoilerMode;
+    try { localStorage.setItem(spoilerKey, spoilerMode ? 'on' : 'off'); } catch { /* Keep it for this visit. */ }
+    renderSpoilerToggle();
+    renderSearchOptions();
+    refresh();
+    if (current) select(current, false);
   });
   get('mark-collectible').addEventListener('change', () => {
     if (!currentCollectible || !isTrackable(currentCollectible)) return;
@@ -287,14 +312,18 @@
     return { x: 19.125 + column * 6.75, y: row === 0 ? 2.8 : .3 + row * 11.1 };
   };
   const searchOptions = get('map-search-options');
-  [...cards.map((card, i) => card.name + ' · Colosso ' + String(i + 1).padStart(2, '0')),
-    ...places.map(place => place[0]),
-    ...new Set([...cards.map(card => card.coord), ...places.map(place => place[1]), ...collectibles.map(item => item.coord)])
-  ].forEach(value => {
-    const option = document.createElement('option');
-    option.value = value;
-    searchOptions.append(option);
-  });
+  function renderSearchOptions() {
+    searchOptions.replaceChildren();
+    [...cards.map((card, i) => displayName(i + 1) + ' · Colosso ' + String(i + 1).padStart(2, '0')),
+      ...places.map(place => place[0]),
+      ...new Set([...cards.map(card => card.coord), ...places.map(place => place[1]), ...collectibles.map(item => item.coord)])
+    ].forEach(value => {
+      const option = document.createElement('option');
+      option.value = value;
+      searchOptions.append(option);
+    });
+  }
+  renderSearchOptions();
   function searchMap() {
     const raw = get('map-search').value;
     const query = normalize(raw.split(' · ')[0]);
@@ -312,7 +341,7 @@
       select(colossusIndex + 1);
       const position = markerPosition(markers[colossusIndex]);
       focusPoint(position.x, position.y, markers[colossusIndex]);
-      get('map-search-status').textContent = cards[colossusIndex].name + ' localizado em ' + cards[colossusIndex].coord + '.';
+      get('map-search-status').textContent = displayName(colossusIndex + 1) + ' localizado em ' + cards[colossusIndex].coord + '.';
       return;
     }
     const placeIndex = places.findIndex(place => normalize(place[0]) === query || normalize(place[0]).startsWith(query));
@@ -361,6 +390,7 @@
   });
   window.addEventListener('resize', () => setZoom(zoom));
   setZoom(1);
+  renderSpoilerToggle();
   select(1, false);
   refresh();
   const requestedColossus = Number(new URLSearchParams(location.search).get('colosso'));

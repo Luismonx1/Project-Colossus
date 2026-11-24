@@ -55,9 +55,12 @@
 .character-spoiler-lock button{justify-self:center;min-height:44px;padding:11px 16px;border:1px solid var(--accent);background:var(--panel);color:var(--text);cursor:pointer}
 .character-spoiler-lock button:hover{background:color-mix(in srgb,var(--panel) 80%,var(--accent) 20%)}
 .character-page main img.is-zoomable{cursor:zoom-in}
+.central-credits-link{margin-top:24px}.central-credits-link a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);text-decoration:underline;text-underline-offset:4px}
+.character-page a,.character-page button{touch-action:manipulation}
 @media(max-width:760px){
 .character-route-nav{grid-template-columns:1fr}.character-route-nav .character-route-all,.character-route-nav>:last-child{text-align:left}
 .character-relations>div{grid-template-columns:1fr}.character-relations a{min-height:88px}
 .character-spoiler-lock{padding:24px 18px}.navbar>.spoiler-toggle{width:100%;justify-content:center}
 }
+@media(max-width:420px){.nav-links{width:100%;overflow-x:auto;justify-content:flex-start;flex-wrap:nowrap;padding-bottom:5px}.nav-links a{flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center}.character-route-nav>*{min-height:76px}.hero-copy{padding-left:20px;padding-right:20px}}
 

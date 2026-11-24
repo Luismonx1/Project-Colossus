@@ -26,6 +26,10 @@ for (const file of [...used].filter(f => f.endsWith('.css'))) {
 // Dynamic galleries assemble paths in JavaScript; count media whose filename is explicitly referenced there.
 const scriptSources = walk('Scripts').filter(file => file.endsWith('.js')).map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 for (const media of walk('Images')) if (scriptSources.includes(path.basename(media))) used.add(media);
+// The Home gallery builds the optimized thumbnail path from each colossus name.
+if (scriptSources.includes('Images/Colossos/Thumbnails/${')) {
+  for (const media of walk('Images/Colossos/Thumbnails')) used.add(media);
+}
 const unusedMedia = [...walk('Images'), ...walk('Sounds')].filter(f => /\.(png|webp|jpg|wav)$/i.test(f) && !used.has(f));
 console.log(JSON.stringify({issues, unusedMedia},null,2));
 if (issues.length) process.exitCode = 1;

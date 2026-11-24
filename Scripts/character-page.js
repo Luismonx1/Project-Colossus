@@ -45,12 +45,19 @@
         spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
         protectedSections.forEach(section => {
             const hidden = spoilerMode && !revealedSections.has(section);
+            if (hidden && section.contains(document.activeElement)) spoilerToggle.focus({ preventScroll: true });
             section.classList.toggle('is-character-spoiler-hidden', hidden);
             [...section.children].forEach(child => {
                 if (child.classList.contains('character-spoiler-lock')) return;
                 child.inert = hidden;
                 child.toggleAttribute('aria-hidden', hidden);
             });
+        });
+        document.querySelectorAll('[data-character-name]').forEach(element => {
+            element.textContent = spoilerMode ? 'Personagem protegido' : element.dataset.characterName;
+        });
+        document.querySelectorAll('[data-character-role]').forEach(element => {
+            element.textContent = spoilerMode ? 'Conteúdo protegido' : element.dataset.characterRole;
         });
     }
 
@@ -65,10 +72,10 @@
     route.className = 'character-route-nav';
     route.setAttribute('aria-label', 'Navegação entre personagens');
     const previous = current > 0
-        ? `<a href="${characters[current - 1].file}.html"><small>Personagem anterior</small><strong>${characters[current - 1].name}</strong></a>`
+        ? `<a href="${characters[current - 1].file}.html"><small>Personagem anterior</small><strong data-character-name="${characters[current - 1].name}">${characters[current - 1].name}</strong></a>`
         : '<span class="character-route-disabled"><small>Personagem anterior</small><strong>Início da galeria</strong></span>';
     const next = current < characters.length - 1
-        ? `<a href="${characters[current + 1].file}.html"><small>Próximo personagem</small><strong>${characters[current + 1].name}</strong></a>`
+        ? `<a href="${characters[current + 1].file}.html"><small>Próximo personagem</small><strong data-character-name="${characters[current + 1].name}">${characters[current + 1].name}</strong></a>`
         : '<span class="character-route-disabled"><small>Próximo personagem</small><strong>Fim da galeria</strong></span>';
     route.innerHTML = `${previous}<a class="character-route-all" href="HomePage.html#personagens"><small>Elenco</small><strong>Todos os personagens</strong></a>${next}`;
     document.querySelector('.page-end').before(route);
@@ -76,8 +83,20 @@
     const relations = document.createElement('section');
     relations.className = 'character-relations';
     relations.setAttribute('aria-labelledby', 'character-relations-title');
-    relations.innerHTML = `<p class="eyebrow">Histórias conectadas</p><h2 id="character-relations-title">Outras perspectivas da jornada.</h2><div>${characters.filter((_, index) => index !== current).map(character => `<a href="${character.file}.html"><small>${character.role}</small><strong>${character.name}</strong></a>`).join('')}</div>`;
+    relations.innerHTML = `<p class="eyebrow">Histórias conectadas</p><h2 id="character-relations-title">Outras perspectivas da jornada.</h2><div>${characters.filter((_, index) => index !== current).map(character => `<a href="${character.file}.html"><small data-character-role="${character.role}">${character.role}</small><strong data-character-name="${character.name}">${character.name}</strong></a>`).join('')}</div>`;
     document.querySelector('.sources').before(relations);
+    applySpoilerMode();
+
+    const sources = document.querySelector('.sources');
+    const centralCredits = document.createElement('p');
+    centralCredits.className = 'central-credits-link';
+    centralCredits.innerHTML = '<a href="Creditos.html">Ver todos os créditos e fontes do projeto</a>';
+    sources.append(centralCredits);
+
+    document.querySelectorAll('img').forEach(image => {
+        image.decoding = 'async';
+        if (image.src.endsWith('/terras-proibidas-wander-agro.png')) image.src = '../Images/Outros/terras-proibidas-wander-agro.webp';
+    });
 
     const galleryItems = [...document.querySelectorAll('main img')].map(image => ({
         element: image,
@@ -130,8 +149,15 @@
         const trigger = item.element.closest('a') || item.element;
         item.element.classList.add('is-zoomable');
         trigger.setAttribute('role', 'button');
+        if (trigger === item.element) trigger.tabIndex = 0;
         trigger.setAttribute('aria-label', `Ampliar imagem ${index + 1} de ${characters[current].name}`);
         trigger.addEventListener('click', event => { event.preventDefault(); openGallery(index, trigger); });
+        trigger.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openGallery(index, trigger);
+            }
+        });
     });
     lightbox.querySelector('.lightbox-close').addEventListener('click', closeGallery);
     lightbox.querySelector('.lightbox-previous').addEventListener('click', () => showItem(galleryIndex - 1));
@@ -142,5 +168,12 @@
         if (event.key === 'Escape') closeGallery();
         else if (event.key === 'ArrowLeft') showItem(galleryIndex - 1);
         else if (event.key === 'ArrowRight') showItem(galleryIndex + 1);
+        else if (event.key === 'Tab') {
+            const controls = [...lightbox.querySelectorAll('button:not([disabled])')];
+            const first = controls[0];
+            const last = controls.at(-1);
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
     });
 })();

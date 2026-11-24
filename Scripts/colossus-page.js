@@ -7,7 +7,7 @@
         'Basaran', 'Dirge', 'Celosia', 'Pelagia', 'Phalanx', 'Cenobia', 'Argus', 'Malus'];
     const progressKey = 'colossus-atlas-progress-v1';
     const spoilerKey = 'colossus-spoiler-mode-v1';
-    const deathScreenFiles = ['01-valus.jpg', '02-quadratus.jpg', '03-gaius.jpg', '04-phaedra.jpg',
+    const deathScreenFiles = ['01-valus-remake.webp', '02-quadratus.jpg', '03-gaius.jpg', '04-phaedra.jpg',
         '05-avion.jpg', '06-barba.jpg', '07-hydrus.jpg', '08-kuromori.jpg', '09-basaran.jpg', '10-dirge.jpg',
         '11-celosia.jpg', '12-pelagia.jpg', '13-phalanx.jpg', '14-cenobia.jpg', '15-argus.jpg', '16-malus.jpg'];
     const pageEnd = document.querySelector('.page-end');
@@ -25,6 +25,11 @@
         : '<span class="route-disabled" aria-disabled="true"><span>Próximo →</span><strong>Fim da jornada</strong></span>';
     route.innerHTML = `${previous}<a class="route-map" href="mapa.html?colosso=${number}"><span>Ver localização</span><strong>Abrir no mapa ↗</strong></a>${next}`;
     pageEnd.before(route);
+    route.querySelectorAll('a:not(.route-map)').forEach(link => {
+        const target = Number(link.getAttribute('href').match(/\d+/)?.[0]);
+        const label = link.querySelector('strong');
+        if (target && label) label.dataset.revealedLabel = label.textContent;
+    });
     if (locationLink) locationLink.href = `mapa.html?colosso=${number}`;
 
     let completed = new Set();
@@ -67,6 +72,14 @@
     const deathScreenBackground = [...document.body.children].filter(element => element !== deathScreen);
     const originalTitle = document.title;
 
+    const footer = document.querySelector('footer');
+    if (footer && !footer.querySelector('[href="Creditos.html"]')) {
+        const credits = document.createElement('a');
+        credits.href = 'Creditos.html';
+        credits.textContent = 'Créditos e fontes';
+        footer.append(credits);
+    }
+
     function applySpoilerMode() {
         const locked = spoilerMode && !completed.has(number);
         document.body.classList.toggle('spoiler-mode', spoilerMode);
@@ -79,6 +92,12 @@
         spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
         spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
         spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
+        route.querySelectorAll('[data-revealed-label]').forEach(label => {
+            const target = Number(label.closest('a').getAttribute('href').match(/\d+/)?.[0]);
+            label.textContent = spoilerMode && !completed.has(target)
+                ? `${String(target).padStart(2, '0')} · Não revelado`
+                : label.dataset.revealedLabel;
+        });
         document.title = locked ? `Colosso ${String(number).padStart(2, '0')} | Project Colossus` : originalTitle;
         if (locked) deathScreen.querySelector('a').focus({ preventScroll: true });
     }
@@ -194,6 +213,14 @@
     lightbox.querySelector('.lightbox-next').addEventListener('click', () => showGalleryItem(galleryIndex + 1));
     lightbox.addEventListener('click', event => { if (event.target === lightbox) closeGallery(); });
     document.addEventListener('keydown', event => {
+        if (!deathScreen.hidden && event.key === 'Tab') {
+            const controls = [...deathScreen.querySelectorAll('a, button')];
+            const first = controls[0];
+            const last = controls.at(-1);
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+            return;
+        }
         if (lightbox.hidden) return;
         if (event.key === 'Escape') closeGallery();
         else if (event.key === 'ArrowLeft') showGalleryItem(galleryIndex - 1);

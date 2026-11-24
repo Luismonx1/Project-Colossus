@@ -6,6 +6,14 @@
     const quote = document.getElementById('featured-quote');
     const link = document.getElementById('featured-link');
     const status = document.getElementById('gallery-status');
+    const characterCards = [...document.querySelectorAll('.character-card')];
+    const colossusNames = ['Valus', 'Quadratus', 'Gaius', 'Phaedra', 'Avion', 'Barba', 'Hydrus', 'Kuromori', 'Basaran', 'Dirge', 'Celosia', 'Pelagia', 'Phalanx', 'Cenobia', 'Argus', 'Malus'];
+    choices.forEach((choice, index) => {
+        const thumb = choice.querySelector('img');
+        thumb.src = `../Images/Colossos/Thumbnails/${colossusNames[index]}.webp`;
+        thumb.decoding = 'async';
+        if (index === 0) choice.dataset.image = '../Images/Colossos/Valus/ValusCinematic.webp';
+    });
     let current = 0;
     const progressKey = 'colossus-atlas-progress-v1';
     const spoilerKey = 'colossus-spoiler-mode-v1';
@@ -110,6 +118,11 @@
         spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
         spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
         spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
+        characterCards.forEach((card, index) => {
+            const protectedCard = spoilerMode && index >= 2;
+            card.classList.toggle('is-character-spoiler-locked', protectedCard);
+            card.setAttribute('aria-label', protectedCard ? `Abrir personagem protegido ${index + 1}` : `Abrir página de ${card.querySelector('h3').textContent}`);
+        });
         select(current, false);
     }
     spoilerToggle.addEventListener('click', () => {
