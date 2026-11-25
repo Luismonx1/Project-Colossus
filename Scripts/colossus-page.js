@@ -7,9 +7,9 @@
         'Basaran', 'Dirge', 'Celosia', 'Pelagia', 'Phalanx', 'Cenobia', 'Argus', 'Malus'];
     const progressKey = 'colossus-atlas-progress-v1';
     const spoilerKey = 'colossus-spoiler-mode-v1';
-    const deathScreenFiles = ['01-valus-remake.webp', '02-quadratus.jpg', '03-gaius.jpg', '04-phaedra.jpg',
-        '05-avion.jpg', '06-barba.jpg', '07-hydrus.jpg', '08-kuromori.jpg', '09-basaran.jpg', '10-dirge.jpg',
-        '11-celosia.jpg', '12-pelagia.jpg', '13-phalanx.jpg', '14-cenobia.jpg', '15-argus.jpg', '16-malus.jpg'];
+    const deathScreenFiles = ['01-valus-remake.webp', '02-quadratus-remake.webp', '03-gaius-remake.webp', '04-phaedra-remake.webp',
+        '05-avion-remake.webp', '06-barba-remake.webp', '07-hydrus-remake.webp', '08-kuromori-remake.webp', '09-basaran-remake.webp', '10-dirge-remake.webp',
+        '11-celosia-remake.webp', '12-pelagia-remake.webp', '13-phalanx-remake.webp', '14-cenobia-remake.webp', '15-argus-remake.webp', '16-malus-remake.webp'];
     const pageEnd = document.querySelector('.page-end');
     const facts = document.querySelector('.facts');
     const locationLink = document.querySelector('.location a[href="mapa.html"]');
