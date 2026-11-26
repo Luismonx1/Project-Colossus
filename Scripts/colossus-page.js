@@ -61,7 +61,7 @@
         <div class="death-screen-content">
             <p class="death-screen-order">Acesso protegido · Colosso ${String(number).padStart(2, '0')}</p>
             <h1 id="death-screen-title">Colosso não derrotado</h1>
-            <p>Esta tela permanecerá oculta até que a vitória seja registrada no mapa.</p>
+            <p>Registre sua vitória para revelar esta ficha.</p>
             <div class="death-screen-actions">
                 <a href="HomePage.html#colossos">Voltar à galeria</a>
                 <button type="button" data-action="complete">Registrar vitória</button>
@@ -81,6 +81,7 @@
     }
 
     function applySpoilerMode() {
+        const wasLocked = !deathScreen.hidden;
         const locked = spoilerMode && !completed.has(number);
         document.body.classList.toggle('spoiler-mode', spoilerMode);
         document.body.classList.toggle('spoiler-locked', locked);
@@ -100,6 +101,7 @@
         });
         document.title = locked ? `Colosso ${String(number).padStart(2, '0')} | Project Colossus` : originalTitle;
         if (locked) deathScreen.querySelector('a').focus({ preventScroll: true });
+        else if (wasLocked) spoilerToggle.focus({ preventScroll: true });
     }
 
     function setSpoilerMode(enabled) {
@@ -195,7 +197,21 @@
         document.body.classList.remove('lightbox-open');
         background.forEach(element => { element.inert = false; });
         previousFocus?.focus();
+        applySpoilerMode();
     }
+
+    function refreshProgress() {
+        if (!lightbox.hidden) closeGallery();
+        try {
+            const saved = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            completed = new Set(Array.isArray(saved) ? saved.filter(value => Number.isInteger(value) && value >= 1 && value <= 16) : []);
+            spoilerMode = localStorage.getItem(spoilerKey) === 'on';
+        } catch { return; }
+        renderProgress();
+        applySpoilerMode();
+    }
+    window.addEventListener('pageshow', refreshProgress);
+    window.addEventListener('storage', event => { if (!event.key || event.key === progressKey || event.key === spoilerKey) refreshProgress(); });
 
     portrait.classList.add('is-zoomable');
     portrait.tabIndex = 0;

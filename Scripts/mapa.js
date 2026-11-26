@@ -55,6 +55,14 @@
     spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
   }
   function refresh() {
+    document.querySelectorAll('.region-grid > a').forEach(link => {
+      const number = Number(link.getAttribute('href').match(/Colosso(\d+)/)?.[1]);
+      const locked = isLocked(number);
+      const description = link.querySelector('p');
+      if (!description.dataset.originalText) description.dataset.originalText = description.textContent;
+      description.textContent = locked ? 'Encontro ainda não revelado.' : description.dataset.originalText;
+      link.querySelector('figure').hidden = locked;
+    });
     const pending = get('only-pending').checked;
     let visible = 0;
     markers.forEach((marker, i) => {
@@ -395,7 +403,24 @@
   refresh();
   const requestedColossus = Number(new URLSearchParams(location.search).get('colosso'));
   if (Number.isInteger(requestedColossus) && requestedColossus >= 1 && requestedColossus <= cards.length) {
-    get('map-search').value = cards[requestedColossus - 1].name;
+    get('map-search').value = 'colosso ' + requestedColossus;
     searchMap();
   }
+  function refreshStoredState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || '[]');
+      completed = new Set(Array.isArray(saved) ? saved.filter(n => Number.isInteger(n) && n >= 1 && n <= 16) : []);
+      const savedItems = JSON.parse(localStorage.getItem(collectibleKey) || '[]');
+      collected = new Set(Array.isArray(savedItems) ? savedItems.filter(id => typeof id === 'string') : []);
+      spoilerMode = localStorage.getItem(spoilerKey) === 'on';
+    } catch { return; }
+    renderSpoilerToggle();
+    renderSearchOptions();
+    refresh();
+    if (current) select(current, false);
+  }
+  window.addEventListener('pageshow', refreshStoredState);
+  window.addEventListener('storage', event => {
+    if (!event.key || [key, collectibleKey, spoilerKey].includes(event.key)) refreshStoredState();
+  });
 })();

@@ -134,8 +134,13 @@ footer p { font: 12px/1.8 Arial, sans-serif; color: var(--muted); }
     .nav-links { width: 100%; gap: 10px; overflow-x: auto; font-size: 14px; padding-bottom: 4px; }
     .nav-links > * { flex: 0 0 auto; min-height: 44px; display: inline-flex; align-items: center; }
     .navbar > .spoiler-toggle { width: 100%; justify-content: center; }
-    .spoiler-death-screen { padding: 12px; }
-    .death-screen-content { padding: 24px 18px; }
+    .spoiler-death-screen { padding: 0 12px max(16px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; justify-content: flex-start; background: #040606; }
+    .spoiler-death-screen::before { position: relative; inset: auto; flex: 0 0 auto; width: calc(100% + 24px); aspect-ratio: 16 / 9; margin: 0 -12px; background-size: contain; }
+    .spoiler-death-screen::after { display: none; }
+    .death-screen-content { padding: 20px 16px; margin: 12px auto 0; flex-shrink: 0; }
+    .death-screen-order { margin-bottom: 14px; }
+    .death-screen-content h1 { font-size: clamp(30px, 8vw, 42px); }
+    .death-screen-content > p:not(.death-screen-order) { margin-bottom: 20px; }
     .death-screen-actions { display: grid; }
     .colossus-intro, .reading-grid, .combat, .curiosity-grid { grid-template-columns: 1fr; }
     .portrait { aspect-ratio: 1; min-height: 0; }
@@ -159,7 +164,7 @@ footer p { font: 12px/1.8 Arial, sans-serif; color: var(--muted); }
     .image-lightbox { padding: 68px 14px 86px; }
     .image-lightbox img { max-height: calc(100vh - 190px); }
     .lightbox-previous { top: auto; bottom: 20px; left: calc(50% - 58px); }
-    .lightbox-next { top: auto; right: calc(50% - 58px); }
+    .lightbox-next { top: auto; bottom: 20px; right: calc(50% - 58px); }
     .lightbox-position { top: auto; bottom: 34px; right: 50%; transform: translateX(50%); }
     footer { flex-direction: column; align-items: flex-start; gap: 10px; }
     footer p { margin: 0; }

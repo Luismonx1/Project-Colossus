@@ -49,8 +49,9 @@
 .character-relations a:hover{border-color:var(--accent)}.character-relations small{color:var(--muted);font:11px/1.5 Arial,sans-serif}.character-relations strong{font-size:24px;font-weight:400}
 .character-spoiler-section{position:relative;min-height:220px}
 .character-spoiler-lock{display:none;position:absolute;inset:0;z-index:4;padding:30px;place-content:center;text-align:center;background:radial-gradient(circle at center,color-mix(in srgb,var(--panel) 92%,transparent),var(--bg));border:1px solid var(--line)}
-.is-character-spoiler-hidden>.character-spoiler-lock{display:grid}
-.is-character-spoiler-hidden>:not(.character-spoiler-lock){visibility:hidden}
+.is-character-spoiler-hidden{display:block!important}
+.is-character-spoiler-hidden>.character-spoiler-lock{display:grid;position:relative;min-height:260px}
+.is-character-spoiler-hidden>:not(.character-spoiler-lock){display:none!important}
 .character-spoiler-lock .eyebrow{margin-bottom:10px}.character-spoiler-lock h3{font-size:clamp(24px,3vw,34px);font-weight:400;margin:0 0 10px}.character-spoiler-lock p:not(.eyebrow){max-width:480px;margin:0 auto 20px;color:var(--muted);font:14px/1.7 Arial,sans-serif}
 .character-spoiler-lock button{justify-self:center;min-height:44px;padding:11px 16px;border:1px solid var(--accent);background:var(--panel);color:var(--text);cursor:pointer}
 .character-spoiler-lock button:hover{background:color-mix(in srgb,var(--panel) 80%,var(--accent) 20%)}

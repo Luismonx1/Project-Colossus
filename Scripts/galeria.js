@@ -111,6 +111,7 @@
         choices.forEach((choice, index) => {
             const locked = spoilerMode && !completed.has(index + 1);
             choice.classList.toggle('is-spoiler-locked', locked);
+            choice.querySelector('span').setAttribute('aria-hidden', String(locked));
             const thumb = choice.querySelector('img');
             thumb.src = locked ? deathScreens[index] : thumb.dataset.originalSrc;
             choice.setAttribute('aria-label', locked ? `Selecionar colosso desconhecido ${index + 1}` : `Selecionar ${choice.dataset.name}, colosso ${index + 1}`);
@@ -134,11 +135,12 @@
     applySpoilerMode();
     function refreshProgress() {
         try {
+            spoilerMode = localStorage.getItem(spoilerKey) === 'on';
             const saved = JSON.parse(localStorage.getItem(progressKey) || '[]');
             completed = new Set(Array.isArray(saved) ? saved.filter(Number.isInteger) : []);
         } catch { completed = new Set(); }
         applySpoilerMode();
     }
     window.addEventListener('pageshow', refreshProgress);
-    window.addEventListener('storage', event => { if (event.key === progressKey) refreshProgress(); });
+    window.addEventListener('storage', event => { if (!event.key || event.key === progressKey || event.key === spoilerKey) refreshProgress(); });
 })();

@@ -14,12 +14,25 @@
     try { spoilerMode = localStorage.getItem(spoilerKey) === 'on'; } catch { /* Keep the default. */ }
 
     const protectedSections = {
-        Wander: ['#aparencia-amaldicoada'],
-        Mono: ['#despertar'],
-        Dormin: ['#fragmentos', '#manifestacao', '#aparencia', '#desfecho'],
-        Emon: ['.emon-scene', '#ritual']
+        Wander: ['#historia', '#passado', '#aparencia-amaldicoada'],
+        Mono: ['#despertar', '#curiosidades'],
+        Dormin: ['#pacto', '#fragmentos', '#manifestacao', '#aparencia', '#desfecho', '#ambiguidades'],
+        Emon: ['#historia', '.emon-scene', '#ritual', '#limites']
     }[pageName].map(selector => document.querySelector(selector)).filter(Boolean);
     const revealedSections = new WeakSet();
+    const safeLabels = [
+        ['.spoiler-notice p', 'Algumas seções tratam de acontecimentos importantes da história.'],
+        ...(pageName === 'Dormin' ? [
+            ['.hero-subtitle', 'Uma promessa na escuridão.'],
+            ['.seal small', 'A voz do santuário'],
+            ['.facts > div:nth-child(3) dt', 'Mistério'],
+            ['.facts > div:nth-child(3) dd', 'Origem desconhecida'],
+            ['a[href="#fragmentos"]', 'Conteúdo protegido'],
+            ['a[href="#manifestacao"]', 'Conteúdo protegido']
+        ] : []),
+        ...(pageName === 'Mono' ? [['a[href="#despertar"]', 'Conteúdo protegido']] : []),
+        ...(pageName === 'Emon' ? [['.facts > div:nth-child(4) dd', 'Conteúdo protegido']] : [])
+    ].flatMap(([selector, safe]) => [...document.querySelectorAll(selector)].map(element => ({element, safe, original: element.innerHTML})));
 
     const spoilerToggle = document.createElement('button');
     spoilerToggle.type = 'button';
@@ -40,6 +53,7 @@
 
     function applySpoilerMode() {
         document.body.classList.toggle('character-spoiler-mode', spoilerMode);
+        safeLabels.forEach(({element, safe, original}) => { element.innerHTML = spoilerMode ? safe : original; });
         spoilerToggle.innerHTML = `<span class="spoiler-toggle__icon" aria-hidden="true">${spoilerMode ? '◉' : '◎'}</span><span class="spoiler-toggle__label">Sem spoilers<small>${spoilerMode ? 'Ativado' : 'Desativado'}</small></span>`;
         spoilerToggle.setAttribute('aria-pressed', String(spoilerMode));
         spoilerToggle.setAttribute('aria-label', spoilerMode ? 'Desativar modo sem spoilers' : 'Ativar modo sem spoilers');
@@ -122,12 +136,17 @@
     let previousFocus = null;
 
     function showItem(index) {
-        galleryIndex = (index + galleryItems.length) % galleryItems.length;
+        const direction = index < galleryIndex ? -1 : 1;
+        const available = galleryItems.filter(item => !item.element.closest('.is-character-spoiler-hidden'));
+        if (!available.length) return;
+        const wrap = value => ((value % galleryItems.length) + galleryItems.length) % galleryItems.length;
+        while (!available.includes(galleryItems[wrap(index)])) index += direction;
+        galleryIndex = wrap(index);
         const item = galleryItems[galleryIndex];
         lightboxImage.src = item.src;
         lightboxImage.alt = item.alt;
         lightboxCaption.textContent = item.caption;
-        lightboxPosition.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
+        lightboxPosition.textContent = `${available.indexOf(item) + 1} / ${available.length}`;
     }
     function openGallery(index, trigger) {
         if (trigger.closest('.is-character-spoiler-hidden')) return;
@@ -163,6 +182,13 @@
     lightbox.querySelector('.lightbox-previous').addEventListener('click', () => showItem(galleryIndex - 1));
     lightbox.querySelector('.lightbox-next').addEventListener('click', () => showItem(galleryIndex + 1));
     lightbox.addEventListener('click', event => { if (event.target === lightbox) closeGallery(); });
+    function refreshSpoilers() {
+        if (!lightbox.hidden) closeGallery();
+        try { spoilerMode = localStorage.getItem(spoilerKey) === 'on'; } catch { return; }
+        applySpoilerMode();
+    }
+    window.addEventListener('pageshow', refreshSpoilers);
+    window.addEventListener('storage', event => { if (!event.key || event.key === spoilerKey) refreshSpoilers(); });
     document.addEventListener('keydown', event => {
         if (lightbox.hidden) return;
         if (event.key === 'Escape') closeGallery();
