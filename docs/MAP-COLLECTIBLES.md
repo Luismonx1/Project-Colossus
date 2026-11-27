@@ -8,7 +8,19 @@ https://www.portale7.com.br/2018/02/localizacao-dos-santuarios-lagartos.html
 - 64 pontos de lagartos: centros dos símbolos cianos do mapa de lagartos. Indicam locais de busca; os animais se movem.
 - 24 mini templos: posições dos símbolos verdes; o Santuário da Adoração é o 25º santuário e permanece no filtro Locais.
 
-As 79 moedas usam a numeração e o tempo do vídeo PS4Trophies informado pelo usuário: https://youtu.be/awFlJLIUCgw . A lista foi conferida pela quantidade de moedas em cada quadrante; três classificações automáticas nas bordas da grade foram corrigidas para F0, G1 e C4. O mapa de referência não numera os pontos dentro de um mesmo quadrante. Por isso, quando há várias moedas no quadrante, cada ponto mostra os links de todas elas; em quadrantes com uma única moeda, o link é direto. Isso evita associar um minuto ao ponto errado.
+As 79 moedas usam a numeração e os tempos do vídeo PS4Trophies informado pelo usuário: https://youtu.be/awFlJLIUCgw . Os tempos também constam na descrição do vídeo e na página do autor: https://www.ps4trophiesgaming.com/video/shadow-of-the-colossus-all-79-relic-coin-locations-secret-underground-area-and-sword-of-dormin/ .
+
+`Scripts/mapa-coins-video.js` associa explicitamente cada entrada do vídeo ao `pointId` do atlas e inclui uma dica do local. Cada ping apresenta um único link, no início do percurso da respectiva moeda, e o número segue o vídeo (não a ordem norte–sul dos IDs internos). Três classificações automáticas nas bordas da grade continuam corrigidas para F0, G1 e C4.
+
+### Método e limites da associação
+
+Revisão em 27/11/2026: comparação do roteiro narrado, cenas de gameplay e mapas exibidos no vídeo com os pontos do mapa de referência. O mapa do próprio autor (https://www.ps4trophiesgaming.com/wp-content/uploads/2018/02/Shadow-of-the-Colossus-Relic-Map-1.jpg) também não numera os pontos. A correspondência dentro de um quadrante é uma interpretação dos percursos e marcos geográficos, não uma tabela oficial de coordenadas. Não houve coleta das 79 moedas dentro de uma partida para validar cada associação.
+
+As dicas diferenciam, por exemplo, a margem, a ponte e o pilar do lago em D1; os pontos baixos e elevados da fortaleza em G1; e os túneis e beiradas em F8. Elas evitam revelar nomes e aparência dos colossos, mas o vídeo externo contém spoilers e mostra os percursos completos.
+
+Os IDs `coins:1` a `coins:79`, as posições x/y e a chave de armazenamento permanecem os mesmos. Não trocar um ID pelo número do vídeo: isso alteraria quais moedas aparecem como encontradas para visitantes que já salvaram progresso. Para corrigir uma associação futura, alterar `pointId` no guia e revisar a dica, sem renumerar os colecionáveis.
+
+Validação dos dados: `node tools/validate-coins.cjs` verifica cobertura de todos os pontos, unicidade de IDs e números, quadrantes, ordem dos tempos e presença das dicas. Essa checagem detecta inconsistências nos dados; não substitui a conferência dos percursos no jogo.
 
 Moedas, árvores frutíferas e lagartos podem ser marcados como encontrados. O progresso (176 pontos no total) fica salvo somente no navegador por `localStorage`, separado do progresso dos colossos. O filtro “Ocultar itens encontrados” não afeta mini templos.
 

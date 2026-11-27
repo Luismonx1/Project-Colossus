@@ -21,21 +21,15 @@
   collectibles.filter(item => item.type === 'coins').forEach(item => {
     if (coinCoordinateCorrections[item.id]) item.coord = coinCoordinateCorrections[item.id];
   });
-  const groupByCoord = items => items.reduce((groups, item) => {
-    (groups[item.coord] ||= []).push(item);
-    return groups;
-  }, {});
-  const coinsByCoord = groupByCoord(collectibles.filter(item => item.type === 'coins'));
-  const guideByCoord = groupByCoord(coinGuide);
-  Object.keys(guideByCoord).forEach(coord => {
-    const points = (coinsByCoord[coord] || []).sort((a, b) => a.y - b.y || a.x - b.x);
-    const guide = guideByCoord[coord].sort((a, b) => a.number - b.number);
-    if (points.length !== guide.length) console.warn('Quantidade de moedas divergente em ' + coord);
-    points.forEach(point => {
-      point.videoOptions = guide;
-      if (guide.length === 1) Object.assign(point, { number: guide[0].number, time: guide[0].time });
-    });
+  const guideByPoint = new Map(coinGuide.map(entry => [entry.pointId, entry]));
+  collectibles.filter(item => item.type === 'coins').forEach(point => {
+    const guide = guideByPoint.get(point.id);
+    if (guide && guide.coord === point.coord) {
+      point.videoOptions = [guide];
+      Object.assign(point, { number: guide.number, time: guide.time, hint: guide.hint });
+    }
   });
+  const coinName = point => 'Moeda' + (point.number ? ' ' + String(point.number).padStart(2, '0') : '') + ' · ' + point.coord;
   try {
     const saved = JSON.parse(localStorage.getItem(key) || '[]');
     if (Array.isArray(saved)) completed = new Set(saved.filter(n => Number.isInteger(n) && n >= 1 && n <= 16));
@@ -173,8 +167,8 @@
     marker.style.setProperty('--x', group.x + '%');
     marker.style.setProperty('--y', group.y + '%');
     marker.textContent = { coins: '◉', fruits: '♣', lizards: '∿', shrines: '⌂' }[group.type];
-    marker.title = group.type === 'coins' ? 'Moeda · ' + group.coord : labels[group.type] + ' ' + group.id + ' · ' + group.coord;
-    marker.setAttribute('aria-label', group.type === 'coins' ? 'Moeda, quadrante ' + group.coord : labels[group.type] + ' ' + group.id + ', quadrante ' + group.coord);
+    marker.title = group.type === 'coins' ? coinName(group) : labels[group.type] + ' ' + group.id + ' · ' + group.coord;
+    marker.setAttribute('aria-label', marker.title);
     marker.setAttribute('aria-controls', 'atlas-detail');
     marker.setAttribute('aria-describedby', 'collectibles-help');
     marker.setAttribute('aria-pressed', 'false');
@@ -184,7 +178,7 @@
       current = null;
       currentCollectible = group;
       [...markers, ...placeMarkers, ...collectibleMarkers].forEach(m => m.setAttribute('aria-pressed', String(m === marker)));
-      get('detail-number').textContent = group.type === 'coins' ? 'Moeda · ' + group.coord : 'Ponto ' + String(group.id).padStart(2, '0') + ' · ' + group.coord;
+      get('detail-number').textContent = group.type === 'coins' ? coinName(group) : 'Ponto ' + String(group.id).padStart(2, '0') + ' · ' + group.coord;
       get('detail-name').textContent = labels[group.type];
       get('detail-image').hidden = true;
       get('detail-credit').hidden = true;
@@ -193,9 +187,9 @@
       get('mark-collectible').checked = collected.has(collectibleId(group));
       get('collectible-completion-label').textContent = group.type === 'coins' ? 'Moeda encontrada' : group.type === 'fruits' ? 'Árvore encontrada' : 'Lagarto encontrado';
       const descriptions = {
-        coins: (group.videoOptions?.length || 1) === 1
-          ? 'Moeda dourada do remake de PS4. O vídeo abaixo abre diretamente no momento desta coleta.'
-          : 'Este quadrante possui ' + group.videoOptions.length + ' moedas. Como o mapa de referência não numera os pontos dentro do quadrante, os momentos corretos de todas elas aparecem abaixo.',
+        coins: group.hint
+          ? group.hint + ' Numeração conforme o vídeo de PS4Trophies; o link abre o início do percurso desta moeda.'
+          : 'Moeda dourada do remake de PS4 indicada no mapa de referência. Guia em vídeo indisponível para este ponto.',
         fruits: 'Ponto de árvore frutífera indicado no mapa de referência. Uma árvore pode conter várias frutas.',
         lizards: 'Ponto de lagarto de cauda branca indicado no mapa de referência. Procure nas pedras e estruturas próximas; o animal pode se mover.',
         shrines: 'Mini templo de oração indicado no mapa de referência. O Santuário da Adoração aparece separadamente no filtro Locais.'
@@ -215,8 +209,8 @@
         video.textContent = 'Moeda ' + String(info.number).padStart(2, '0') + ' · ' + minutes + ':' + seconds + ' ↗';
         get('collectible-links').append(video);
       });
-      get('collectible-links').hidden = group.type !== 'coins';
-      get('selection-status').textContent = labels[group.type] + ' em ' + group.coord + '. Guia atualizado.';
+      get('collectible-links').hidden = !group.videoOptions?.length;
+      get('selection-status').textContent = (group.type === 'coins' ? coinName(group) : labels[group.type] + ' em ' + group.coord) + '. Guia atualizado.';
     });
     collectibleMarkers.push(marker);
     get('map').append(marker);
