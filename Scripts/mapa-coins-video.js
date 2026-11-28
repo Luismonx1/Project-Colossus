@@ -1,5 +1,5 @@
 // Ordem e tempos do vídeo PS4Trophies informado pelo usuário.
-// O tempo está em segundos e abre diretamente a coleta correspondente.
+// O tempo está em segundos e abre o início do percurso da moeda correspondente.
 window.colossusCoinGuide = [
   [1,"F4",38],[2,"F3",54],[3,"F0",111],[4,"F2",125],[5,"E2",172],
   [6,"E2",211],[7,"D2",260],[8,"D2",284],[9,"C1",300],[10,"C2",329],
@@ -39,7 +39,7 @@ const coinLocationHints = [
   'No extremo norte da ponte de entrada, junto ao portão.',
   'Nas rochas abaixo do lado leste da ponte. O percurso usa o paraquedas.',
   'Sobre a passagem de pedra no caminho para o lago da plataforma circular.',
-  'Na água, atrás da plataforma circular, junto ao pilar.',
+  'No pilar baixo na água, atrás da plataforma circular. Desça da plataforma até ele.',
   'Junto aos três pilares e às escadas no caminho para noroeste.',
   'Nas rochas mais ao norte desse caminho, perto da divisa com C2.',
   'Nas rochas a leste do mini templo ao norte da cidade em ruínas.',
@@ -52,7 +52,7 @@ const coinLocationHints = [
   'Junto à parede ao norte da caverna dos gêiseres.',
   'Na formação rochosa isolada em E4.',
   'No alto da formação rochosa em C4.',
-  'Perto do mini templo, antes da caverna de areia.',
+  'No topo do mini templo antes da caverna de areia. É preciso escalar o templo.',
   'À esquerda no túnel de entrada da caverna de areia.',
   'Sob uma rocha que precisa ser quebrada durante o encontro na caverna.',
   'Na beirada gramada do penhasco, ao sul da caverna de areia.',
@@ -100,8 +100,8 @@ const coinLocationHints = [
   'Na rocha alta e inclinada ao norte da estrutura circular.',
   'Na passagem junto ao penhasco no extremo sul de F7.',
   'Junto ao círculo de pedras na parte sul de G7.',
-  'Na beirada entre as rochas ao norte do círculo de pedras.',
-  'Na beirada gramada do penhasco em H7.',
+  'Na plataforma a meia altura do penhasco ao norte do círculo de pedras. Desça junto à grande rocha clara.',
+  'Na beirada gramada abaixo do topo do penhasco em H7. O percurso desce por várias plataformas.',
   'Junto à árvore atrás do mini templo em H6.',
   'Na beirada com musgo à direita da caverna, antes do lago interior.',
   'No alto da construção no centro do lago interior.',

@@ -26,7 +26,21 @@ Moedas, árvores frutíferas e lagartos podem ser marcados como encontrados. O p
 
 A precisão é a dos mapas de referência, não uma medição das coordenadas 3D do jogo. Pontos próximos permanecem separados. Zoom de 100% a 300% amplia a base e as posições, mantendo os ícones pequenos. Filtros de colecionáveis começam desligados. O filtro de pendentes e o progresso continuam exclusivos dos colossos.
 
-## Base visual
+## Conferência de funcionamento e localização — 27/11/2026
+
+Testes realizados na prévia local, no navegador:
+
+- 79 pings acionados pelo teclado: todos exibiram o número e o quadrante do marcador, um único link e o segundo previsto na lista fornecida pelo usuário.
+- Moeda 79 marcada como encontrada: o contador passou de 0 para 1; após recarregar, continuou em 1. O filtro de encontrados ocultou o ping. A marcação de teste foi desfeita, retornando a 0.
+- Inspeção visual em desktop e viewport de 390 × 844: painel e link legíveis, sem transbordamento horizontal da página. O mapa conserva a rolagem interna. A moeda 79 também foi selecionada por clique no layout estreito.
+
+Isso valida a interface e a construção dos links, não a reprodução individual dos 79 destinos no YouTube nem a posição no jogo. Os tempos apontam para o começo do percurso, podendo anteceder a coleta.
+
+Na conferência do roteiro do vídeo foram refinadas as dicas de altura das moedas 6, 19, 67 e 68: pilar baixo, topo do mini templo e plataformas abaixo do topo dos penhascos. Não foram alterados IDs, coordenadas ou vínculos entre pontos e vídeo.
+
+**Limite da revisão geográfica:** o mapa de referência não possui numeração e não representa altura. As correspondências entre pontos próximos continuam interpretativas, particularmente C2 (10–11), D1 (13–15), G1 (35–39), H4 (41–43), G6 (70–73) e F8 (77–79). As dicas e os percursos diferenciam esses locais, mas não foi obtida evidência suficiente para certificar cada vínculo x/y ou justificar uma troca entre eles. A validação definitiva desses grupos permanece pendente de conferência em uma partida ou de uma referência numerada com correspondência comprovada ao mesmo vídeo.
+
+## Base visual do mapa
 
 Images/Outros/MapaTerrasProibidas.webp (1673 × 940) foi criada por edição com IA da referência de santuários enviada pelo usuário, removendo símbolos e preservando o enquadramento. Não é uma textura oficial sem alterações: há reconstrução de terreno nas áreas cobertas pelos ícones. A interface informa o uso de IA e a precisão limitada às referências. Atribuição original preservada na imagem.
 
