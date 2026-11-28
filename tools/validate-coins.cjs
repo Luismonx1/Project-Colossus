@@ -25,4 +25,11 @@ for (const [index, entry] of guide.entries()) {
   if (index) assert.ok(entry.time > guide[index - 1].time, 'Tempos fora de ordem');
   assert.ok(typeof entry.hint === 'string' && entry.hint.trim().length > 15, `Moeda ${entry.number}: falta dica`);
 }
-console.log('79 moedas: cobertura completa, associações únicas, quadrantes e tempos consistentes.');
+// Relações espaciais da referência numerada: docs/MAP-COLLECTIBLES.md.
+// Unicidade e quadrante, sozinhos, não detectam a troca de dois pontos vizinhos.
+function pointFor(number) {
+  return coins.find(point => point.id === guide.find(entry => entry.number === number).pointId);
+}
+assert.ok(pointFor(38).x > pointFor(39).x, 'G1: escadas (38) devem ficar a leste da passagem (39)');
+assert.ok(pointFor(72).x < pointFor(73).x, 'G6: sala de pilares (72) deve ficar a oeste da beirada (73)');
+console.log('79 moedas: cobertura completa, associações únicas, quadrantes, tempos e relações espaciais revisadas consistentes.');

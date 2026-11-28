@@ -26,11 +26,11 @@ const coinPointIds = [
   35,30,1,21,26,20,22,17,14,18,
   19,15,13,7,4,27,32,31,33,39,
   40,47,57,58,28,29,24,25,23,16,
-  11,3,9,2,6,5,8,10,12,37,
+  11,3,9,2,6,5,8,12,10,37,
   36,34,38,41,42,45,48,43,51,56,
   52,53,55,46,44,49,50,54,59,63,
   71,74,67,65,69,72,68,70,61,60,
-  62,64,66,73,75,76,77,78,79
+  62,66,64,73,75,76,77,78,79
 ];
 
 const coinLocationHints = [
@@ -110,9 +110,9 @@ const coinLocationHints = [
   'Logo após o portão da região sul, à direita. Acesso após 15 vitórias.',
   'No caminho à direita antes do salto com Agro, depois do mini templo.',
   'Na beirada à esquerda da parede de escalada, após o salto com Agro.',
-  'Na passagem subterrânea acessada por um buraco na arena final.',
-  'Na beirada externa da arena final, antes de voltar para a passagem interna.',
-  'No fim da passagem atrás da estrutura central da arena final.'
+  'Posição aproximada: a localização exata deste ping ainda não foi confirmada. Siga o vídeo até a passagem subterrânea acessada por um buraco na arena final.',
+  'Posição aproximada: a localização exata deste ping ainda não foi confirmada. Siga o vídeo até a beirada externa da arena final, antes de voltar para a passagem interna.',
+  'Posição aproximada: a localização exata deste ping ainda não foi confirmada. Siga o vídeo até o fim da passagem atrás da estrutura central da arena final.'
 ];
 
 window.colossusCoinGuide.forEach((entry, index) => {

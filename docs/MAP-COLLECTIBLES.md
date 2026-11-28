@@ -38,7 +38,34 @@ Isso valida a interface e a construção dos links, não a reprodução individu
 
 Na conferência do roteiro do vídeo foram refinadas as dicas de altura das moedas 6, 19, 67 e 68: pilar baixo, topo do mini templo e plataformas abaixo do topo dos penhascos. Não foram alterados IDs, coordenadas ou vínculos entre pontos e vídeo.
 
-**Limite da revisão geográfica:** o mapa de referência não possui numeração e não representa altura. As correspondências entre pontos próximos continuam interpretativas, particularmente C2 (10–11), D1 (13–15), G1 (35–39), H4 (41–43), G6 (70–73) e F8 (77–79). As dicas e os percursos diferenciam esses locais, mas não foi obtida evidência suficiente para certificar cada vínculo x/y ou justificar uma troca entre eles. A validação definitiva desses grupos permanece pendente de conferência em uma partida ou de uma referência numerada com correspondência comprovada ao mesmo vídeo.
+Na primeira revisão, esses seis grupos permaneceram pendentes. A comparação adicional abaixo substitui esse estado para cinco deles.
+
+### Comparação com referência numerada — 27/11/2026
+
+O [mapa numerado do Nabagois](https://78514.com/games/wander/gold/kira79_mapx2.jpg) utiliza outra ordem de coleta. A correspondência foi feita pelos locais descritos e pelas capturas, não pela igualdade dos números. A posição das estrelas foi comparada à distribuição dos pings do atlas. Isso sustenta a associação relativa entre vizinhos; não certifica coordenadas 3D nem precisão ao pixel.
+
+| Grupo | Números no vídeo → números no Nabagois | Resultado |
+| --- | --- | --- |
+| C2 | 10→38, 11→39 | Mantidos: colunas a leste do canal. |
+| D1 | 13→42, 14→44, 15→43 | Mantidos: margem sul, ponte, pilar a oeste. |
+| G1 | 35→51, 36→52, 37→53, 38→54, 39→55 | Corrigidos 38→pointId 12 e 39→pointId 10; estavam invertidos. |
+| H4 | 41→63, 42→65, 43→64 | Mantidos: encosta, extremo nordeste do lago e construção de entrada. |
+| G6 | 70→12, 71→15, 72→13, 73→14 | Corrigidos 72→pointId 66 e 73→pointId 64; estavam invertidos. |
+| F8 | 77→73, 78→74, 79→75 | Percursos identificados; posições ainda não confirmadas. |
+
+Páginas com descrições/capturas: [C2](https://78514.com/games/wander/wander_k31_40.html), [D1](https://78514.com/games/wander/wander_k41_50.html), [G1](https://78514.com/games/wander/wander_k51_60.html), [H4](https://78514.com/games/wander/wander_k61_70.html), [G6](https://78514.com/games/wander/wander_k11_20.html), [F8](https://78514.com/games/wander/wander_k71_79.html).
+
+O [guia Neoseeker](https://www.neoseeker.com/shadow-of-the-colossus-2018/Collectibles_and_Other_Useful_Items/Secret_Coin_Locations) também distingue os marcos de cada grupo. Em G1, descreve a passagem da segunda moeda escondida a oeste da primeira; em C2, situa o canal a oeste. Essas direções corroboram a leitura do mapa numerado.
+
+**Pendência F8:** o desenho numerado distribui os pontos de maneira diferente da base Portal E7/Hardcore Gamer, especialmente a beirada externa. Identificar o percurso não basta para escolher uma troca de IDs ou deslocar as coordenadas. Mantidos os pings até obter um mapa do jogo na posição de coleta ou outra evidência que resolva a divergência.
+
+As duas correções alteram apenas qual número, dica e trecho aparecem em cada ponto. IDs, posições x/y e progresso salvo por localização continuam intactos. Quem anotou números antigos fora do site deve rever os pares 38/39 e 72/73. O validador agora também protege a ordem leste/oeste desses pares.
+
+### Consulta complementar de F8 — 28/11/2026
+
+Consultado o [guia Backlog Guides](https://www.youtube.com/watch?v=WdRcY9mQr_s), nos capítulos 77 (48:59), 78 (50:16) e 79 (51:27). O mapa observado no começo do capítulo 77 mostra a posição inicial do percurso; não foi estabelecido que o marcador representa o ponto de coleta. Os trechos seguintes mostram a travessia pela arena, sem fornecer a evidência cartográfica necessária para resolver a divergência entre as bases.
+
+Portanto, F8 continua pendente de confirmação da posição exata. As descrições das moedas 77–79 agora informam isso antes da orientação do percurso, para não apresentar esses pings como localizações verificadas. Os links do guia original, as coordenadas e os IDs foram preservados.
 
 ## Base visual do mapa
 
